@@ -2,8 +2,8 @@ import React from 'react';
 
 import {Alert, AsyncStorage, Platform} from 'react-native';
 import CONFIG from './config.js';
-import DeviceInfo from 'react-native-device-info';
-import BackgroundGeolocation from "react-native-background-geolocation-android";
+// import DeviceInfo from 'react-native-device-info';
+// import BackgroundGeolocation from "react-native-background-geolocation-android";
 import moment from 'moment-timezone';
 
 
@@ -44,11 +44,11 @@ exports._alertPopupWithOutCall = function(title, msg){
 
 exports._sendDeviceInfo = function(token){
   let device = {
-    unique_id: DeviceInfo.getUniqueID(),
-    device_model: DeviceInfo.getModel(),
+    unique_id: "",
+    device_model: "",
     os: Platform.OS,
-    os_version: DeviceInfo.getSystemVersion(),
-    app_version: DeviceInfo.getVersion()
+    os_version: "",
+    app_version: ""
   }
   console.log("Device information", device);
   return device;
@@ -129,33 +129,7 @@ exports._notificationAlert = function(title,saveClicked){
 
 exports.getCurrentLocation = function(permission, onSuccess, onFail){
   console.log(permission)
-  BackgroundGeolocation.configure({
-    desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-    locationAuthorizationRequest: permission,
-    locationAuthorizationAlert: {
-      titleWhenNotEnabled: "Location Service",
-      titleWhenOff: "Location Service",
-      instructions: (permission === 'WhenInUse')? CONFIG.while_in_use : CONFIG.always,
-      cancelButton: "Cancel",
-      settingsButton: "Settings"
-    }
-  }, (state) => {
-    return BackgroundGeolocation.start(() => {
-      BackgroundGeolocation.getCurrentPosition(function(location) {
-        onSuccess(location);
-        console.log("LocationSuccess",location)
-      }, function(errorCode) {
-        onFail(errorCode);
-        console.log("LocationFailed",errorCode)
-      }, {
-        timeout: 30,      // 30 second timeout to fetch location
-        maximumAge: 5000, // Accept the last-known-location if not older than 5000 ms.
-        desiredAccuracy: 25,  // Try to fetch a location with an accuracy of `10` meters.
-        samples: 3,// How many location samples to attempt.
-        persist: false   
-      });
-    });
-  });
+  onFail("1");
 }
 
 exports.setVisitData = function(appointment_module,appointment_id,client_visit_id){

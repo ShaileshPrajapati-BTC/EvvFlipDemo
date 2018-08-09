@@ -1,7 +1,7 @@
 import {connect} from 'react-redux'
-import {CheckIn, CheckOut, CheckStatusForCheckInCheckOut, SubmitCareplan} from './qrCodeActions';
+import {CheckIn, CheckOut, CheckStatusForCheckInCheckOut, SubmitCareplan,UpdateStatusData} from './qrCodeActions';
 
-import {StartBeacon, StopBeacon, StopLocation, fetchLocation} from '../Tracking/trackingActions.js';
+// import {StartBeacon, StopBeacon, StopLocation, fetchLocation} from '../Tracking/trackingActions.js';
 
 import QrCodeComponent from './qrCodeComponent';
 
@@ -31,10 +31,7 @@ const mapDispatchToProps = {
   CheckOut,
   CheckStatusForCheckInCheckOut,
   SubmitCareplan,
-  StartBeacon,
-  StopBeacon,
-  StopLocation,
-  fetchLocation
+  UpdateStatusData
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(QrCodeComponent);

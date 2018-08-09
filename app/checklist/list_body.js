@@ -54,14 +54,7 @@ export default class ListBody extends Component {
     if (this.props.submitTask != null) {
       if (this.state.picker_state !== value.value) {
         let prev_value = this.state.picker_state;
-        if (this.props.isLocationNotPresent != null) {
-          if (this.props.isLocationNotPresent()) {
-            this.setState({picker_state: 'none'});
-            return
-          }
-          this.setState({picker_state: value.value});
-          this._updateSingleTask(this.props.task.todo_id, value.value, prev_value)
-        }
+        this._updateSingleTask(this.props.task.todo_id, value.value, prev_value)
       }
     } else {
       if (this.props.option !== null && this.props.option === true) {
@@ -81,57 +74,60 @@ export default class ListBody extends Component {
   }
 
   async _updateSingleTask(todo_id, status, prev_value){
-    let location = {};
-    if (this.props.getLocationAndRssiValue != null){
-      location = this.props.getLocationAndRssiValue()
-      console.log(location, "location caaa")
-    }
-    let self = this;
-    let data = { task: {
-                    todo_id: todo_id, 
-                    status: status,
-                    longitude: location.longitude || '',
-                    latitude: location.latitude || '',
-                    rssi_value: location.rssi_value || 0
-                  } 
-               }
-    if (this.props.appointment_module === true){
-      Object.assign(data, {appointment_id: this.props.appointment_id});
-    }else{
-      Object.assign(data, {client_visit_id: this.props.client_visit_id});
-    }
-    let response = await fetch(CONFIG.BASE_URL+'/todolist/update_task', {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'access_token': this.state.token
-      },
-      body: JSON.stringify(data)
-    }).catch(function(error) {
-      // Helper._alertPopup('', CONFIG.something_went_wrong);
-      console.log("error insss send =============", error);
-    });
-    try {
-      let res = await response.json();
-      console.log(res);
-      if (res.status === 404 || res.status === 500){
-        Helper._alertPopup('', CONFIG.care_plan_submit_error);
-      }else if (res.status === true){
-        self.setState({picker_state: status})
-        console.log(self.state.picker_state,"daaa")
-        self.props.onChange(self.props.task.todo_id, status);
-        this.props.showAlert.alertWithType("success", "Thank you!",res.message);
-      }
-      else{
-        self.setState({picker_state: prev_value});
-        self.props.showAlert.alertWithType("error", "", res.message);
-      }
-    } catch(error) {
-      Helper._alertPopup('', CONFIG.something_went_wrong);
-      console.log("error in send =============", error);
-      self.setState({picker_state: prev_value});
-    }
+    this.setState({picker_state: status})
+    this.props.showAlert.alertWithType("success", "Thank you!","CheckList Saved successfully!");
+
+    // let location = {};
+    // if (this.props.getLocationAndRssiValue != null){
+    //   location = this.props.getLocationAndRssiValue()
+    //   console.log(location, "location caaa")
+    // }
+    // let self = this;
+    // let data = { task: {
+    //                 todo_id: todo_id, 
+    //                 status: status,
+    //                 longitude: location.longitude || '',
+    //                 latitude: location.latitude || '',
+    //                 rssi_value: location.rssi_value || 0
+    //               } 
+    //            }
+    // if (this.props.appointment_module === true){
+    //   Object.assign(data, {appointment_id: this.props.appointment_id});
+    // }else{
+    //   Object.assign(data, {client_visit_id: this.props.client_visit_id});
+    // }
+    // let response = await fetch(CONFIG.BASE_URL+'/todolist/update_task', {
+    //   method: 'PUT',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json',
+    //     'access_token': this.state.token
+    //   },
+    //   body: JSON.stringify(data)
+    // }).catch(function(error) {
+    //   // Helper._alertPopup('', CONFIG.something_went_wrong);
+    //   console.log("error insss send =============", error);
+    // });
+    // try {
+    //   let res = await response.json();
+    //   console.log(res);
+    //   if (res.status === 404 || res.status === 500){
+    //     Helper._alertPopup('', CONFIG.care_plan_submit_error);
+    //   }else if (res.status === true){
+    //     self.setState({picker_state: status})
+    //     console.log(self.state.picker_state,"daaa")
+    //     self.props.onChange(self.props.task.todo_id, status);
+    //     this.props.showAlert.alertWithType("success", "Thank you!",res.message);
+    //   }
+    //   else{
+    //     self.setState({picker_state: prev_value});
+    //     self.props.showAlert.alertWithType("error", "", res.message);
+    //   }
+    // } catch(error) {
+    //   Helper._alertPopup('', CONFIG.something_went_wrong);
+    //   console.log("error in send =============", error);
+    //   self.setState({picker_state: prev_value});
+    // }
   }
 
   render() {

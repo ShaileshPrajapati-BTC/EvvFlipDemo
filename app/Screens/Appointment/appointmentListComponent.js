@@ -47,18 +47,9 @@ export default class AppointmentList extends Component {
   }
 
   _getAppointmentList = async () => {
-    try{
-        this.props.fetchAppointmentList()
-        .then((responseData) =>
-        {
-          this.setState({loading: false});
-        })
-        .catch((error) => {
-          Helper.apiResponseAlert(error, CONFIG.get_appointment_list)
-          this.setState({loading: false});
-        });
-    }catch(error){
-    }
+    setTimeout(()=>{
+      this.setState({loading: false});
+    }, 1000)
   }
 
   _onRefresh() {

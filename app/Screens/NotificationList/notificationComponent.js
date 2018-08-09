@@ -40,48 +40,22 @@ export default class NotificationComponent extends Component {
   async _interactionCheckList(id, response_status, time=0, location){
     this.setState({loading: true})
     try {
-      let body = {
-        notification_id: id,
-        response_status: response_status,
-        time_of_completion: time,
-        latitude: location.latitude,
-        longitude: location.longitude
-      }
-      this.props.submitInteractionCheckList(body)
-      .then((res) => {
-        this._showApiResponse(res);
-      }).catch((error) => {
-        console.log(error,"inside update notification method")
-        Helper.apiResponseAlert(error, CONFIG.unable_to_update_notification);
-        this.setState({loading: false})
-      });
-    } catch(error) {}
+      setTimeout(()=>{
+        this.setState({loading: false});
+      }, 1000)
+      this._alert({status: 'success', message: "Thank You your response saved"});
+    }catch(error) {
+      console.log(error);
+    }
   }
 
   async _extendAppointment(id, extended_hours, refused = false){
     this.setState({loading: true})
     try {
-      let body = {
-        notification_id: id,
-        extended_hours: extended_hours
-      }
-      this.props.extendAppointment(body)
-      .then((res) => {
-        console.log(res);
-        if (res.status === true){
-          if(refused === true){
-            this._confirmation_for_refused(res.message)
-          }else{
-            this._alert({status: 'success', message: res.message});
-          }
-        }else if(res.status === false){
-          this._alert({status: 'error', message: res.message});
-        }
-        this._getNotificationList();
-      }).catch((error) => {
-        Helper.apiResponseAlert(error, CONFIG.unable_to_extend_appointment);
-        this.setState({loading: false})
-      });
+      setTimeout(()=>{
+        this.setState({loading: false});
+      }, 1000)
+      this._alert({status: 'success', message: "Thank You your response saved"});
     }catch(error) {
       console.log(error);
     }
@@ -90,56 +64,29 @@ export default class NotificationComponent extends Component {
   async _updateNotification(id, response_status){
     this.setState({loading: true})
     try {
-      let body = {
-        notification_id: id,
-        response_status: response_status
-      }
-      this.props.submitDashboardCommentResponse(body)
-      .then((res) => {
-        this._showApiResponse(res);
-      }).catch(function(error) {
-        Helper.apiResponseAlert(error, CONFIG.unable_to_update_notification);
-        this.setState({loading: false})
-      });
-    } catch(error) {}
+      setTimeout(()=>{
+        this.setState({loading: false});
+      }, 1000)
+      this._alert({status: 'success', message: "Thank You your response saved"});
+    }catch(error) {
+      console.log(error);
+    }
   }
 
   async _getNotificationList(){
-    try{
-      this.props.fetchNotificationList()
-        .then((responseData) =>
-        {
-          console.log("----------------------->")
-          console.log(responseData);
-          this.props.UpdateNotificationCount();
-          this.setState({loading: false});
-        })
-        .catch((error) => {
-          Helper.apiResponseAlert(error, CONFIG.unable_to_get_notification);
-          console.log(error)
-          this.setState({loading: false});
-        });
-    }catch(error){}
+    setTimeout(()=>{
+      this.setState({loading: false});
+    }, 1000)
   }
 
   async _visitStatusLocation(id, status, location,late_timings=0){
     this.setState({loading: true})
     try {
-      let body = {
-        notification_id: id,
-        response_status: status,
-        latitude: location.latitude,
-        longitude: location.longitude,
-        late_timings: late_timings
-      }
-      this.props.submitVisitStatusLocation(body)
-      .then((res) => {
-        this._showApiResponse(res);
-      }).catch((error) => {
-        Helper.apiResponseAlert(error, CONFIG.unable_to_extend_appointment);
-        this.setState({loading: false})
-      });
-    } catch(error) {
+      setTimeout(()=>{
+        this.setState({loading: false});
+      }, 1000)
+      this._alert({status: 'success', message: "Thank You your response saved"});
+    }catch(error) {
       console.log(error);
     }
   }

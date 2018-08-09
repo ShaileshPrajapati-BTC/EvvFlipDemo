@@ -31,9 +31,9 @@ export default class LoginComponent extends Component {
   }
 
   async login(){
-    this._checkIntroduction("Successfully logged in", res.data);
+    this._checkIntroduction("Successfully logged in");
   }
-  _checkIntroduction(message, data){
+  _checkIntroduction(message){
     console.log("sss");
       AsyncStorage.getItem("introduction", (err, result) => {
         console.log("result=>>>>>>.", result);

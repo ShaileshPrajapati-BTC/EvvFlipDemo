@@ -1,6 +1,6 @@
 import {NotificationApi} from "../../api/notificationApi";
 import Helper from '../../config/Helper.js';
-import FCM from 'react-native-fcm';
+// import FCM from 'react-native-fcm';
 
 export const FETCH_NOTIFICATION_LIST = 'FETCH_NOTIFICATION_LIST';
 export const EMPTY_NOTIFICATION_LIST = 'EMPTY_NOTIFICATION_LIST';
@@ -8,8 +8,8 @@ export const EMPTY_NOTIFICATION_LIST = 'EMPTY_NOTIFICATION_LIST';
 
 export const fetchNotificationList = () => {
   return (dispatch, getState) => {
-    FCM.removeAllDeliveredNotifications();
-    FCM.cancelAllLocalNotifications();
+    // FCM.removeAllDeliveredNotifications();
+    // FCM.cancelAllLocalNotifications();
     let header = Helper.prepareHeader(getState().reducer.login.loginData.token);
     return NotificationApi.getNotificationList({}, header).then(res => {
       console.log(res, res.data.data.status,"data")

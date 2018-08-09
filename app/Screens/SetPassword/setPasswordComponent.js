@@ -74,38 +74,13 @@ export default class SetPassword extends Component {
   }
 
   async reset_password_api(){
+
     this.setState({reset_disabled: true})
-    try {
-      let body = {
-        mobile: this.state.mobile,
-        otp: this.state.otp,
-        new_password: this.state.new_password,
-        confirm_password: this.state.confirm_password
-      }
-      console.log("body -----", body)
-      this.props.SetPassword(body)
-      .then((res) => {
-        console.log(res);
-        if (res.status === true)
-        {
-          this.reset_password.alertWithType("success", "Thank you!", res.message);
-          this.setState({reset_disabled: false, forget_mobile: ''});
-          setTimeout(() => {
-            this._back_press();
-          }, 1000);
-        }
-        else if (res.status === false){
-          this.setState({reset_disabled: false});
-          this.reset_password.alertWithType("error", "", res.message);
-        }
-      }).catch((error) => {
-        Helper.apiResponseAlert(error, CONFIG.reset_api_error_404);
-        console.log(error,"inside method")
-        this.setState({reset_disabled: false});
-      });
-    } catch(error) {
-      console.log(error, "==========> forgot password");
-    }
+    this.reset_password.alertWithType("success", "Thank you!", "Changed password successfully");
+    this.setState({reset_disabled: false, forget_mobile: ''});
+    setTimeout(() => {
+      this._back_press();
+    }, 1000);
   }
 
   render(){

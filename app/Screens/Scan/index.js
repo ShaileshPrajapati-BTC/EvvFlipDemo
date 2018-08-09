@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
 
-import {
-	StartBeacon,
-	StopBeacon,
-	TrackingDataChange,
-	SendTrackingReport,
-	StoreTrackData,
-	EmptyTrackData,
-	StartLocation,
-	fetchLocation
-} from '../Tracking/trackingActions.js';
+// import {
+// 	StartBeacon,
+// 	StopBeacon,
+// 	TrackingDataChange,
+// 	SendTrackingReport,
+// 	StoreTrackData,
+// 	EmptyTrackData,
+// 	StartLocation,
+// 	fetchLocation
+// } from '../Tracking/trackingActions.js';
 
 import {
   Logout
@@ -35,17 +35,17 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-	StartBeacon,
-	StopBeacon,
-	TrackingDataChange,
-	SendTrackingReport,
+	// StartBeacon,
+	// StopBeacon,
+	// TrackingDataChange,
+	// SendTrackingReport,
 	Logout,
 	getAppointmentStatus,
 	getNextAppointmentStatus,
-	StoreTrackData,
-	EmptyTrackData,
-	StartLocation,
-	fetchLocation
+	// StoreTrackData,
+	// EmptyTrackData,
+	// StartLocation,
+	// fetchLocation
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ScanComponent);

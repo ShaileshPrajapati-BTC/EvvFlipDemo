@@ -11,8 +11,13 @@ const initialState = {
   loginData:{
     in_out_status: 'In',
     clock_status: 'Check in',
-    client_name: 'N/A',
+    client_name: 'John Doe',
     scan_status: 'N/A',
+    user_type: true,
+    fullname: "Demo",
+    avatar: "https://cdn.pixabay.com/photo/2016/08/20/05/38/avatar-1606916_960_720.png",
+    token: "2fhsafhknslm",
+    unit_setup_accesible: true
   },
   logoutLoader: false
 };

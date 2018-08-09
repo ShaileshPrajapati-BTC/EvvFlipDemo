@@ -27,7 +27,6 @@ console.disableYellowBox = true;
 export default class Caregiver extends Component {
   constructor() {
     super();
-    Text.defaultProps.allowFontScaling=false;
   }
 
   render() {

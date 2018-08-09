@@ -9,6 +9,25 @@ import Loading from '../../components/Loading.js';
 import _ from 'lodash';
 import PermissionHelper from '../../config/permission_helper.js';
 
+const responseData = {
+  call_to_duty_enabled:false,
+  is_live_in_over:false,
+  live_in_incomplete:false,
+  live_in_questions:[],
+  todos:[{category_name: "Custom CP 1", 
+      todo_list: [
+      {todo_id: 1, todo_name: "CP Task 1", todo_phrase: "Did u test this CP ?", status: "yes"},
+      {todo_id: 139, todo_name: "Private CP TASK", todo_phrase: "DID YOU SERVE THIS?", status: "none"}]
+      },
+      {category_name: "Nutrition", 
+      todo_list: [
+      {todo_id: 1, todo_name: "Serve", todo_phrase: "Did you serve a meal?", status: "yes"},
+      {todo_id: 139, todo_name: "Breakfast", todo_phrase: "Did the Client eat breakfast?", status: "none"},
+      {todo_id: 1, todo_name: "Lunch", todo_phrase: "Did you serve a lunch?", status: "none"},
+      {todo_id: 139, todo_name: "Dinner", todo_phrase: "Did the Client eat dinner?", status: "none"}
+      ]
+      }]
+}
 
 export default class LiveCheckList extends Component {
 
@@ -29,14 +48,14 @@ export default class LiveCheckList extends Component {
   }
 
   componentWillMount() {
-    this._getAndSetLocation();
+    // this._getAndSetLocation();
     this._getTodoList();
   }
 
   componentWillReceiveProps(nextProps){
     if (nextProps.fetchData === true){
       this._getTodoList();
-      this._getAndSetLocation();
+      // this._getAndSetLocation();
     }
   }
 
@@ -51,10 +70,10 @@ export default class LiveCheckList extends Component {
   _enableLocation(resolve = null) {
     PermissionHelper.askToEnableLocation(()=> {
       // Success code
-      this._getAndSetLocation();
+      // this._getAndSetLocation();
       return resolve != null ? resolve() : 0;
     }, (error) => {
-      this._enableLocation()
+      // this._enableLocation()
       console.log(error.message); 
     });
   }
@@ -100,47 +119,14 @@ export default class LiveCheckList extends Component {
 
   async _getTodoList(id = this.props.userData.scheduling_id){
     this.setState({loading: true})
-    let body;
-    if (this.props.userData.appointment_module === true){
-      body = {appointment_id: id}
-    }else{
-      body = {client_visit_id: id}
-    }
-
-    this.props.fetchLiveCheckList(body)
-      .then((responseData) =>
-      {
-        console.log("-----------------------> live check")
-        console.log(responseData);
-        if(responseData.status === true){
-          if(responseData.data.is_live_in_over != true){
-            this.responseData = responseData.data.todos;
-            this._makeFinalArray();
-            this.setState({
-              data: []
-            }, ()=>{
-              this.setState({
-                data: responseData.data.todos, 
-                loading: false,
-                offline: false
-              });  
-            })
-          }else{
-            // this._stopBeacon();
-            this.setState({loading: false, is_live_in_over: responseData.data.is_live_in_over});
-            if(responseData.data.scheduling_id != ""){
-              this._getTodoList(responseData.data.scheduling_id);
-            }
-          }
-        }else if(responseData.status === false){
-          this.setState({loading: false});
-        }
-      })
-      .catch((error) => {
-        Helper.apiResponseAlert(error, CONFIG.get_todo_list);
-        this.setState({loading: false, offline: true});
-        console.log(error, "===========>>>>>> get todo list")
-      });
+    this.responseData = responseData.todos;
+    this._makeFinalArray();
+    this.setState({
+      data: responseData.todos,
+      questions: [],
+      loading: false,
+      offline: false
+    }); 
   }
 
   _onRefresh(){

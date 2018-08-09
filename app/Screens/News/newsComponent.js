@@ -17,7 +17,7 @@ export default class NewsComponent extends Component {
       loading: true,
       refreshing: false,
       data: [],
-      url: '',
+      url: 'http://www.at-homequalitycare.com/',
       page_no: 1,
       pagination: true
     };
@@ -27,7 +27,8 @@ export default class NewsComponent extends Component {
   }
   
   componentWillMount(){
-    this._getBlogFeedUrl(this.props.token)
+    // this._getBlogFeedUrl(this.props.token)
+    this._getBlogFeed("http://www.at-homequalitycare.com/", false);
   }
 
   isCloseToBottom({layoutMeasurement, contentOffset, contentSize}){
@@ -46,39 +47,7 @@ export default class NewsComponent extends Component {
   }
 
   async _getBlogFeedUrl(token){
-    try{
-      fetch(CONFIG.BASE_URL+"json_feed_url",{
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'access_token': token
-        }
-        }).then((response) => response.json())
-        .then((responseData) =>
-        {
-          console.log("----------------------->")
-          console.log(responseData);
-          if(responseData.status === 404){
-            Helper._alertPopup('', CONFIG.get_blog);
-          }
-          else if(responseData.status === true){
-            let url = Helper._getBaseUrl(responseData.data.json_feed_url)
-            this.setState({url: url});
-            this._getBlogFeed(url, false);
-          }else if(responseData.status === false){
-            this.setState({loading: false});
-            Helper._alertPopup('', responseData.message);
-          }
-        })
-        .catch((error) =>{
-          Helper._alertPopup('', CONFIG.something_went_wrong);
-          console.log(error)
-          this.setState({loading: false});
-        });
-    }catch(error){
-      this.setState({loading: false});
-    }
+ 
   }
   
   async _getBlogFeed(url, scroll_page = false){

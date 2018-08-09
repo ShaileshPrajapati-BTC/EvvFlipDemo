@@ -17,6 +17,8 @@ export default class SplashComponent extends Component {
   }
   componentWillMount(){
     console.log("splash", this.props)
+    this.props.MobileChange('mobile', '')
+    this.props.MobileChange('password', '')
   }
   
   async componentDidMount(){
@@ -31,7 +33,11 @@ export default class SplashComponent extends Component {
   }
 
   checkLogin(remove_skip = false){ //send true when remove skip btn date validation
-    this._navigate('Login','');
+    setTimeout(()=>{
+      this._navigate('Login','');
+
+      // this.setState({loading: false});
+    }, 1000)
   }
 
   _navigate(name, type) {

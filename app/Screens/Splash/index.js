@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 import {sendAlertToAgency, verifyCaregiverStatus} from './splashActions';
-import {ClearData} from '../Login/loginActions';
+import {ClearData,MobileChange} from '../Login/loginActions';
 
 import SplashComponent from './splashComponent';
 
@@ -13,7 +13,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
 	sendAlertToAgency,
 	verifyCaregiverStatus,
-	ClearData
+	ClearData,
+	MobileChange
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SplashComponent);

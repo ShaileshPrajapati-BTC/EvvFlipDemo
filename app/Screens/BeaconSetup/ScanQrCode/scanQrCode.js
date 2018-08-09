@@ -17,7 +17,7 @@ import {
   } from 'react-native';
 
 import Header from '../../../components/back_header.js';
-import { RNCamera as Camera } from 'react-native-camera';
+// import { RNCamera as Camera } from 'react-native-camera';
 import CONFIG from '../../../config/config.js';
 import Permissions from 'react-native-permissions';
 import Loading from '../../../components/Loading.js';

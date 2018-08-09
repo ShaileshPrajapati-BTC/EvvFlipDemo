@@ -1,7 +1,7 @@
 import {connect} from 'react-redux'
 import {UpdateNotificationCount} from './tabListActions';
 
-import {StopBeacon,SendAppOpenTracking} from '../Tracking/trackingActions.js';
+// import {StopBeacon,SendAppOpenTracking} from '../Tracking/trackingActions.js';
 
 import {Logout} from '../Login/loginActions';
 
@@ -18,9 +18,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	UpdateNotificationCount,
-	StopBeacon,
+	// StopBeacon,
 	Logout,
-	SendAppOpenTracking
+	// SendAppOpenTracking
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabListComponent);

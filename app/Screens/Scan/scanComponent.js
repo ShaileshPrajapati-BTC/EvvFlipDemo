@@ -47,13 +47,13 @@ export default class ScanComponent extends Component {
   componentDidMount() {
     this.spring();
     console.log("sss12");
-    this.props.getAppointmentStatus().then((res) => {
-      this._enableTracking();
-      if(this.props.in_out_status === 'Out'){
-        this._enableBluetooth();
-      }
-    });
-    this.props.StartLocation();
+    // this.props.getAppointmentStatus().then((res) => {
+    //   this._enableTracking();
+    //   if(this.props.in_out_status === 'Out'){
+    //     this._enableBluetooth();
+    //   }
+    // });
+    // this.props.StartLocation();
     //check tracking start or stop when restart app
   }
 
@@ -75,13 +75,13 @@ export default class ScanComponent extends Component {
   }
 
   _enableLocation(resolve = null) {
-    PermissionHelper.askToEnableLocation(() => {
-      // Success code
-      return resolve != null ? resolve() : 0;
-    }, (error) => {
-      console.log(error.message);
-    });
-    this.setState({disabled: false})
+    // PermissionHelper.askToEnableLocation(() => {
+    //   // Success code
+    //   return resolve != null ? resolve() : 0;
+    // }, (error) => {
+    //   console.log(error.message);
+    // });
+    // this.setState({disabled: false})
   }
 
   spring() {
@@ -118,9 +118,9 @@ export default class ScanComponent extends Component {
   _enableTracking() {
     if (this.props.in_out_status === "Out") {
       this._checkPermission();
-      this.props.StartBeacon(this.props.userData.uuid);
+      // this.props.StartBeacon(this.props.userData.uuid);
     } else {
-      this.props.StopBeacon();
+      // this.props.StopBeacon();
     }
   }
 
@@ -183,62 +183,64 @@ export default class ScanComponent extends Component {
   // call this method on load to check current appointment status checked out not from server.
   async _getAppointemntStatus(in_out_status = false, appointment_status = false) {
     console.log("_getAppointemntStatus ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", in_out_status, appointment_status)
-    try {
-      this.props.getAppointmentStatus()
-        .then((responseData) => {
-          console.log("appointment location")
-          console.log(responseData);
-          this.setState({disabled: false});
-          if (responseData.status === true) {
-            if (this.props.in_out_status === "In") {
-              this.props.StopBeacon();
-              this.props.SendTrackingReport([]);
-              this._navigate('Qrcode');
-            } else if (this.props.in_out_status === "Out") {
-              this._enableTracking();
-              if (this.props.userData.is_live_in_over === false) {
-                this._navigate('Task');
-              } else {
-                this._navigate('Qrcode');
-              }
-              // this._navigate('Task');
-            }
-          }
-        }).catch((error) => {
-        this._checkAppointmentStatus(appointment_status)
-        console.log(error, "---------->error in _getAppointemntStatus");
-      });
-    } catch (error) {
-      console.log(error, "---------->error in _getAppointemntStatus");
-      this.setState({disabled: false});
-    }
+    // try {
+    //   // this.props.getAppointmentStatus()
+    //   //   .then((responseData) => {
+    //   //     console.log("appointment location")
+    //   //     console.log(responseData);
+    //   //     this.setState({disabled: false});
+    //   //     if (responseData.status === true) {
+    //   //       if (this.props.in_out_status === "In") {
+    //   //         this.props.StopBeacon();
+    //   //         this.props.SendTrackingReport([]);
+    //   //         this._navigate('Qrcode');
+    //   //       } else if (this.props.in_out_status === "Out") {
+    //   //         this._enableTracking();
+    //   //         if (this.props.userData.is_live_in_over === false) {
+    //   //           this._navigate('Task');
+    //   //         } else {
+    //   //           this._navigate('Qrcode');
+    //   //         }
+    //   //         // this._navigate('Task');
+    //   //       }
+    //   //     }
+    //   //   }).catch((error) => {
+    //   //   this._checkAppointmentStatus(appointment_status)
+    //   //   console.log(error, "---------->error in _getAppointemntStatus");
+    //   // });
+    // } catch (error) {
+    //   console.log(error, "---------->error in _getAppointemntStatus");
+    //   this.setState({disabled: false});
+    // }
   }
 
   _checkAppointmentStatus(appointment_status) {
     if (this.props.in_out_status === "Out") {
       this._navigate('Task');
-    } else if (appointment_status) {
+    } else  {
       this._navigate('Qrcode');
     }
     this.setState({disabled: false});
   }
 
   async _checkNextAppointment() {
-    this.props.getNextAppointmentStatus()
-      .then((responseData) => {
-        console.log("----------------------->")
-        console.log(responseData);
-        if (responseData.status === true) {
-          let data = responseData.data;
-          Helper._alertPopupWithOutCall('Appointment Info', Helper.nextAppointmentInfo(data.date, data.utc_start_time, data.utc_end_time));
-        } else if (responseData.status === false) {
-          Helper._alertPopupWithOutCall('Appointment Info', responseData.message)
-        }
-      })
-      .catch((error) => {
-        Helper.apiResponseAlert(error, CONFIG.check_appointment_api_error_404);
-        console.log(error, "===========> _checkNextAppointment");
-      });
+    // this.props.getNextAppointmentStatus()
+    //   .then((responseData) => {
+    //     console.log("----------------------->")
+    //     console.log(responseData);
+    //     if (responseData.status === true) {
+    //       let data = responseData.data;
+    //       Helper._alertPopupWithOutCall('Appointment Info', Helper.nextAppointmentInfo(data.date, data.utc_start_time, data.utc_end_time));
+    //     } else if (responseData.status === false) {
+    //       Helper._alertPopupWithOutCall('Appointment Info', responseData.message)
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     Helper.apiResponseAlert(error, CONFIG.check_appointment_api_error_404);
+    //     console.log(error, "===========> _checkNextAppointment");
+    //   });
+    Helper._alertPopupWithOutCall('Appointment Info', Helper.nextAppointmentInfo("2018-08-09", 1533807511, 1533897511));
+
   }
 
   _onRefresh() {
@@ -365,7 +367,7 @@ export default class ScanComponent extends Component {
               <Pulse pulseSize={250}/>
               <Pulse pulseSize={200}/>
               <Button
-                onPress={() => this._checkTaskStatus()}
+                onPress={() => this._checkAppointmentStatus()}
                 style={{
                   position: 'absolute',
                   justifyContent: 'center',

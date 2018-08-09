@@ -4,7 +4,6 @@ import {Button, Container, Content, Spinner, Text} from 'native-base';
 import {Alert, AsyncStorage, Dimensions, Platform, StatusBar, StyleSheet, Vibration, View} from 'react-native';
 
 import Header from '../../components/back_header.js';
-import Camera from 'react-native-camera';
 import CONFIG from '../../config/config.js';
 import CONSTANTS from '../../config/constants.js';
 import Permissions from 'react-native-permissions';
@@ -15,7 +14,7 @@ import moment from 'moment-timezone';
 import OpenAppSettings from 'react-native-app-settings';
 import BeaconFind from '../../components/beacon_find.js';
 import _ from 'lodash';
-import { NavigationActions } from 'react-navigation';
+import { StackActions,NavigationActions } from 'react-navigation';
 
 export default class QrCodeComponent extends Component {
 
@@ -40,10 +39,10 @@ export default class QrCodeComponent extends Component {
     this._getToken();
     this._checkPermission();
     // this._getLocationCoords();
-    this.appointment_data = _.flattenDeep(this.props.appointment_data);
-    if(this.props.longitude === ""){
-      this.props.fetchLocation()
-    }
+    // this.appointment_data = _.flattenDeep(this.props.appointment_data);
+    // if(this.props.longitude === ""){
+    //   // this.props.fetchLocation()
+    // }
   }
   
   componentDidMount(){
@@ -62,7 +61,7 @@ export default class QrCodeComponent extends Component {
     //     msg: msg_obj
     //   }
     // })
-    const resetAction = NavigationActions.reset({
+    const resetAction = StackActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({
         routeName: name,
@@ -197,14 +196,18 @@ export default class QrCodeComponent extends Component {
     if($this.state.camera) {
       $this.setState({camera: false, loading: false});
       Vibration.vibrate();
-      if ($this.state.too_early_check_out_st === 'Out' && this.props.userData.appointment_module === true){
-        const data = $this._filterAppointmentForTooEarlyCheckOut(result.data)
-        if(data.length > 0){
-          $this._showTooEarlyTooCheckout(result.data);
-          return;
-        }
+      // 
+      if ($this.props.in_out_status === "In"){
+        $this.props.UpdateStatusData({in_out_status: 'Out',clock_status: 'Check Out', scan_status: 'Checked In'})
+        setTimeout(()=>{
+          $this._navigate('TabList', {status: 'success', message: "Checkd In successfully"});
+        },1000)
+      }else{
+        $this.props.UpdateStatusData({in_out_status: 'In', clock_status: 'Check In', scan_status: 'Checked Out'})
+        setTimeout(()=>{
+          $this._navigate('TabList', {status: 'success', message: "Checkd Out successfully", logout: true});
+        },1000)
       }
-      $this._sendCheckInOutdata(result.data)
     }
   }
 

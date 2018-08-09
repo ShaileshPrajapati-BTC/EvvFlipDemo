@@ -5,7 +5,6 @@ import {
   Button,
   Container,
   Content,
-  Drawer,
   Form,
   Header,
   Icon,
@@ -26,6 +25,7 @@ import {
 } from 'native-base';
 
 import {Alert, AppState, AsyncStorage, LinkingIOS, Platform, StatusBar} from 'react-native';
+import Drawer from 'react-native-drawer'
 
 import CONFIG from '../../config/config.js';
 import LiveTask from '../LiveChecklist/index.js';
@@ -34,8 +34,8 @@ import AppointmentList from '../Appointment/index.js'
 import Helper from '../../config/Helper.js';
 import PermissionHelper from '../../config/permission_helper.js';
 import SideMenu from '../SideMenu/index.js';
-import PushNotification from '../NotificationList/pushNotificationController.js';
-import FCM from 'react-native-fcm';
+// import PushNotification from '../NotificationList/pushNotificationController.js';
+// import FCM from 'react-native-fcm';
 import DropdownAlert from 'react-native-dropdownalert';
 import ScanComponent from '../Scan/index.js';
 import {NavigationActions} from "react-navigation";
@@ -57,9 +57,9 @@ export default class TabList extends Component {
   }
 
   componentDidMount() {
-    AppState.removeEventListener('change', this._handleAppStateChange);
-    AppState.addEventListener('change', this._handleAppStateChange);
-    this._getNotificationCountFromServer();
+    // AppState.removeEventListener('change', this._handleAppStateChange);
+    // AppState.addEventListener('change', this._handleAppStateChange);
+    // this._getNotificationCountFromServer();
     console.log(this.props, "TAbl99----")
     let params = this.props.navigation.state.params.msg;
     if (params.status != null) {
@@ -69,27 +69,27 @@ export default class TabList extends Component {
     setTimeout(() => {
       this._force_logout(params);
       if (params.tracking != null && params.tracking == true){
-        this.props.SendAppOpenTracking()
-        this._getInitialNotification()
+        // this.props.SendAppOpenTracking()
+        // this._getInitialNotification()
       }
     }, 1000);
     console.log("Tab list propsssss", this.props)
   }
 
   _getInitialNotification(){
-    FCM.getInitialNotification().then(notif=>{
-       console.log("iniit-------------------clear",notif)
-        if(notif['google.sent_time'] != null){
-          this._navigate('Notification',{});
-        }
-    });
+    // FCM.getInitialNotification().then(notif=>{
+    //    console.log("iniit-------------------clear",notif)
+    //     if(notif['google.sent_time'] != null){
+    //       this._navigate('Notification',{});
+    //     }
+    // });
   }
 
   _handleAppStateChange = (nextAppState) => {
-    if (nextAppState === 'active') {
-      // alert("come active state")
-      this._getNotificationCountFromServer()
-    }
+    // if (nextAppState === 'active') {
+    //   // alert("come active state")
+    //   this._getNotificationCountFromServer()
+    // }
     //this.setState({appState: nextAppState});
   }
 
@@ -101,24 +101,11 @@ export default class TabList extends Component {
   }
 
   _getNotificationCount = (value = false) => {
-    this._getNotificationCountFromServer();
+    // this._getNotificationCountFromServer();
   }
 
   _getNotificationCountFromServer() {
-    try {
-      this.props.UpdateNotificationCount()
-        .then((responseData) => {
-          console.log(" notifications count ----------------------->")
-          console.log(responseData);
-          if (responseData.status === true) {
-            FCM.setBadgeNumber(parseInt(responseData.data.notifications.pending_count));
-          }
-        })
-        .catch(function (error) {
-          console.log(error)
-        });
-    } catch (error) {
-    }
+
   }
 
   _navigate = (name, params = {}) => {
@@ -147,8 +134,8 @@ export default class TabList extends Component {
 
   closeDrawer = () => {
     try{
-      if(this.drawer._root!=null){
-        this.drawer._root.close()
+      if(this.drawer!=null){
+        this.drawer.close()
       }
       console.log("closed",this.drawer._root)
     }catch(error){
@@ -157,7 +144,7 @@ export default class TabList extends Component {
   };
 
   openDrawer = () => {
-    this.drawer._root.open()
+    this.drawer.open()
   };
 
   _logoutAfterResetPassword = () => {
@@ -176,8 +163,8 @@ export default class TabList extends Component {
             // this._stopTracking();
             // $this._stopAndroidLocationTracking();
             AsyncStorage.removeItem("fcm_token");
-            FCM.setBadgeNumber(0);
-            this.props.StopBeacon(true, uuid);
+            // FCM.setBadgeNumber(0);
+            // this.props.StopBeacon(true, uuid);
             const resetAction = NavigationActions.reset({
               index: 0,
               actions: [NavigationActions.navigate({
@@ -243,7 +230,13 @@ export default class TabList extends Component {
             incomplete_count={incomplete_visit_count}
             userData={this.props.userData}
           />}
-          panThreshold={.25}
+          tapToClose={true}
+          openDrawerOffset={0.2} // 20% gap on the right side of drawer
+          panCloseMask={0.2}
+          closedDrawerOffset={-3}
+            tweenHandler={(ratio) => ({
+    main: { opacity:(2-ratio)/2 }
+  })}
         >
           <Container>
             <Header style={{backgroundColor: CONFIG.theme_color, height: (Platform.OS === 'ios') ? 74 : 64}}>
@@ -275,11 +268,11 @@ export default class TabList extends Component {
               </Right>
             </Header>
             <StatusBar backgroundColor={CONFIG.theme_color}/>
-            <PushNotification
+{/*            <PushNotification
               token={token}
               navigation={this.props.navigation}
               notificationCount={this._getNotificationCount}
-            />
+            />*/}
             <Tabs
               locked={true}
               initialPage={0}

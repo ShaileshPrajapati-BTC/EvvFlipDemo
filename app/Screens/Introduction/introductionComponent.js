@@ -25,24 +25,9 @@ export default class IntroductionComponent extends Component {
   componentDidMount() {}
 
   async _getWalkThrough(){
-    try{
-        this.props.fetchIntroductionSlides()
-        .then((responseData) =>
-        {
-          console.log(" _getWalkThrough ----------------------->")
-          console.log(responseData);
-          if (responseData.status === true){
-            this.setState({loading: false});
-          }
-        })
-        .catch((error) => {
-          Helper._alertPopup('', CONFIG.something_went_wrong);
-          console.log(error)
-          this._checkRoutes();
-        });
-    }catch(error){
-      this._checkRoutes();
-    }
+    setTimeout(()=>{
+      this.setState({loading: false});
+    }, 1000)
   }
 
   onSkipBtnHandle = (index) => {

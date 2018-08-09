@@ -63,6 +63,11 @@ export const SubmitCareplan = (params) => {
   }
 }
 
+export const  UpdateStatusData = (data) => {
+  return (dispatch, getState) =>{
+    dispatch(LoginSuccess(data))
+  }
+}
 export const UpdateQrCodeData = (data) => {
   return {
     type: UPDATE_QR_CODE_DATA,

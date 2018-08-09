@@ -47,19 +47,9 @@ export default class RemoteCheckoutList extends Component {
   }
 
   _getIncompleteVisitList = async () => {
-    try{
-      this.props.fetchIncompleteAppointmentList()
-      .then((responseData) =>
-      {
-        console.log(responseData, "visits------");
-        this.setState({loading: false});
-      })
-      .catch((error) => {
-        Helper.apiResponseAlert(error, CONFIG.get_incomplete_list);
-        console.log(error)
-        this.setState({loading: false});
-      });
-    } catch(error){}
+    setTimeout(()=>{
+      this.setState({loading: false});
+    }, 1000)
   }
 
   _onRefresh() {

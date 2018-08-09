@@ -8,8 +8,8 @@ import {
   NativeAppEventEmitter
 } from 'react-native';
 
-import Beacons from 'react-native-beacons-manager';
-import BackgroundGeolocation from "react-native-background-geolocation-android";
+// import Beacons from 'react-native-beacons-manager';
+// import BackgroundGeolocation from "react-native-background-geolocation-android";
 
 let beacon_for_check_in_check_out = null;
 let last_api_call_time = null;

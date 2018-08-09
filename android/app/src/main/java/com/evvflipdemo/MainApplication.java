@@ -3,9 +3,9 @@ package com.evvflipdemo;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.krazylabs.OpenAppSettingsPackage;
 import com.rssignaturecapture.RSSignatureCapturePackage;
 import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
-import com.krazylabs.OpenAppSettingsPackage;
 import com.botree.barcodescanner.ZxingPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -27,9 +27,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new OpenAppSettingsPackage(),
             new RSSignatureCapturePackage(),
             new ReactNativePermissionsPackage(),
-            new OpenAppSettingsPackage(),
             new ZxingPackage()
       );
     }

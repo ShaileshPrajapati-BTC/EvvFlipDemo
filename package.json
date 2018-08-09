@@ -7,12 +7,16 @@
     "test": "jest"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "moment-timezone": "^0.5.21",
+    "native-base": "^2.7.2",
     "react": "16.4.1",
     "react-native": "0.56.0",
     "react-native-android-zxing-barcode-scanner": "git+https://github.com/BoTreeConsultingTeam/react-native-android-zxing-barcode-scanner.git",
     "react-native-app-intro": "git+ssh://git@github.com/merryjs/react-native-app-intro.git",
     "react-native-app-settings": "^2.0.0",
     "react-native-autocomplete-input": "^3.4.0",
+    "react-native-drawer": "^2.5.0",
     "react-native-dropdownalert": "^2.10.0",
     "react-native-permissions": "^0.2.7",
     "react-native-radio-buttons": "^1.0.0",

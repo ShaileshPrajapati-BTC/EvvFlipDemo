@@ -19,7 +19,7 @@ import ListHeader from '../../checklist/list_header.js';
 import Helper from '../../config/Helper.js';
 import Loading from '../../components/Loading.js';
 import _ from 'lodash';
-import FCM from 'react-native-fcm';
+// import FCM from 'react-native-fcm';
 import { NavigationActions } from 'react-navigation';
 
 export default class LiveInChecklist extends Component {
@@ -61,7 +61,7 @@ export default class LiveInChecklist extends Component {
   }
 
   componentDidMount(){
-    FCM.removeAllDeliveredNotifications();
+    // FCM.removeAllDeliveredNotifications();
   }
   
   componentWillUnmount(){

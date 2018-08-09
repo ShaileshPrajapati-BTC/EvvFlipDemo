@@ -18,8 +18,6 @@ import ShowMessage from '../Screens/BeaconSetup/ShowMessage/index.js';
 import Notification from '../Screens/NotificationList/index.js';
 import RemoteCheckoutList from '../Screens/IncompleteVisit/index.js';
 import IncompleteCarePlan from '../Screens/IncompleteCareplan/index.js';
-import ApprovedHours from '../hours_report/approved_hour.js';
-import PayrollHours from '../hours_report/payroll_hour.js';
 import Blog from '../Screens/News/index.js';
 import LiveInCarePlan from '../Screens/Live-InChecklist/index.js';
 import TermsAndCondition from '../Screens/TermsAndConditions/index.js'
@@ -46,8 +44,6 @@ const navigator = StackNavigator({
   Notification: {screen: Notification},
   RemoteCheckoutList: {screen: RemoteCheckoutList},
   IncompleteCarePlan: {screen: IncompleteCarePlan},
-  ApprovedHours: {screen: ApprovedHours},
-  PayrollHours: {screen: PayrollHours},
   Blog: {screen: Blog},
   LiveInCarePlan: {screen: LiveInCarePlan},
   TermsAndCondition: {screen: TermsAndCondition},

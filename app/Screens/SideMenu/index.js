@@ -99,16 +99,6 @@ export default class SideMenu extends Component {
               </Body>
             </ListItem>
             {(this.props.userData.user_type === true) ?
-              <ListItem icon  onPress={()=> this._checkVisitStatus()}>
-                <Left>
-                  <Icon name="md-list-box" style={{color: CONFIG.theme_color}}/>
-                </Left>
-                <Body>
-                <Text>Remote Checkout</Text>
-                </Body>
-                <Right/>
-              </ListItem>: null}
-            {(this.props.userData.user_type === true) ?
               <ListItem icon  onPress={()=> this._navigate('RemoteCheckoutList')}>
                 <Left>
                   <Icon name="ios-construct" style={{color: CONFIG.theme_color}}/>

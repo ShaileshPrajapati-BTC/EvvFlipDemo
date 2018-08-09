@@ -22,9 +22,9 @@ import Helper from '../../config/Helper.js';
 import PermissionHelper from '../../config/permission_helper.js';
 import Loading from '../../components/Loading.js';
 import _ from 'lodash';
-import FCM from 'react-native-fcm';
+// import FCM from 'react-native-fcm';
 import moment from 'moment-timezone';
-import { NavigationActions } from 'react-navigation';
+import { StackActions,NavigationActions } from 'react-navigation';
 
 export default class IncompleteCheckList extends Component {
 
@@ -78,7 +78,7 @@ export default class IncompleteCheckList extends Component {
   }
 
   componentDidMount(){
-    FCM.removeAllDeliveredNotifications();
+    // FCM.removeAllDeliveredNotifications();
   }
 
   _enableLocation(resolve = null) {
@@ -109,7 +109,7 @@ export default class IncompleteCheckList extends Component {
     //     msg: msg_obj
     //   }
     // })
-    const resetAction = NavigationActions.reset({
+    const resetAction = StackActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({
         routeName: name,
