@@ -43,7 +43,7 @@ export default class NotificationComponent extends Component {
       setTimeout(()=>{
         this.setState({loading: false});
       }, 1000)
-      this._alert({status: 'success', message: "Thank You your response saved"});
+      this._alert({status: 'success', message: "Your response saved"});
     }catch(error) {
       console.log(error);
     }
@@ -55,7 +55,7 @@ export default class NotificationComponent extends Component {
       setTimeout(()=>{
         this.setState({loading: false});
       }, 1000)
-      this._alert({status: 'success', message: "Thank You your response saved"});
+      this._alert({status: 'success', message: "Your response saved"});
     }catch(error) {
       console.log(error);
     }
@@ -67,7 +67,7 @@ export default class NotificationComponent extends Component {
       setTimeout(()=>{
         this.setState({loading: false});
       }, 1000)
-      this._alert({status: 'success', message: "Thank You your response saved"});
+      this._alert({status: 'success', message: "Your response saved"});
     }catch(error) {
       console.log(error);
     }
@@ -85,7 +85,7 @@ export default class NotificationComponent extends Component {
       setTimeout(()=>{
         this.setState({loading: false});
       }, 1000)
-      this._alert({status: 'success', message: "Thank You your response saved"});
+      this._alert({status: 'success', message: "Your response saved"});
     }catch(error) {
       console.log(error);
     }

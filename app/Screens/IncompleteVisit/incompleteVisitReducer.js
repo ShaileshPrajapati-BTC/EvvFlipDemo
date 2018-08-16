@@ -35,7 +35,7 @@ const initialState = {
                                           client_name:"Tanvi",
                                           date:"2018-05-02",
                                           extended_hours:"",
-                                          status:"Resubmit Request",
+                                          status:"Resubmit",
                                           utc_end_time:1525322700,
                                           utc_start_time:1525271666,
                                           visit:974,
