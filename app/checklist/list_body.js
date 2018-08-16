@@ -75,7 +75,7 @@ export default class ListBody extends Component {
 
   async _updateSingleTask(todo_id, status, prev_value){
     this.setState({picker_state: status})
-    this.props.showAlert.alertWithType("success", "Thank you!","CheckList Saved successfully!");
+    this.props.showAlert.alertWithType("success", "Thank you!","Checklist Saved successfully!");
 
     // let location = {};
     // if (this.props.getLocationAndRssiValue != null){

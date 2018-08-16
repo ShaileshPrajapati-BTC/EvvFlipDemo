@@ -85,24 +85,7 @@ export default class TermsAndCondition extends Component {
   }
 
   async _getTermsAndConditionUrl() {
-    try {
-      this.props.GetTermsAndConditionUrl({})
-        .then((responseData) => {
-          console.log("----------------------->")
-          console.log(responseData);
-          if (responseData.status === true) {
-            this.setState({loading: false, url: responseData.data.terms_and_conditions_url});
-          } else {
-            this.setState({loading: false});
-          }
-        })
-        .catch((error) => {
-          Helper.apiResponseAlert(error, CONFIG.t_and_c_error);
-          this.setState({loading: false});
-        });
-    } catch (error) {
-      this.setState({loading: false});
-    }
+    this.setState({loading: false, url: "http://generator.lorem-ipsum.info/terms-and-conditions"});
   }
 
   async _updateStatus() {

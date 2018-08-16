@@ -5,7 +5,7 @@ const initialState = {
   side_menu: false,
   location_service: true,
   bluetooth_service: true,
-  notificationCountData:{pending_count:2, incomplete_visit_count: 2}
+  notificationCountData:{pending_count:1, incomplete_visit_count: 1}
 };
 
 export function TabListReducer(state = initialState, action) {
