@@ -3,7 +3,7 @@ import {Body, Button, Header, Icon, Left, Right, Subtitle, Text, Thumbnail, Titl
 
 import {AsyncStorage, Platform} from 'react-native';
 import DropdownAlert from 'react-native-dropdownalert';
-import {NavigationActions} from 'react-navigation';
+import {NavigationActions,StackActions} from 'react-navigation';
 import CONFIG from '../config/config.js';
 
 export default class BackHeader extends Component {
@@ -53,7 +53,7 @@ export default class BackHeader extends Component {
       // const routes = this.props.navigator.getCurrentRoutes();
       // const routeToGo = routes.find( route => route.name === 'TabList');
       // this.props.navigator.popToRoute(routeToGo);
-      const resetAction = NavigationActions.reset({
+      const resetAction = StackActions.reset({
         index: 0,
         actions: [NavigationActions.navigate({
           routeName: route,
@@ -85,7 +85,7 @@ export default class BackHeader extends Component {
       }else if (this.props.beacon_setup !== null && this.props.beacon_setup === true){
         //const routeToGo = routes.find( route => route.name === 'InstallBeacon');
         // this._back_press("InstallBeacon");
-        const resetAction = NavigationActions.reset({
+        const resetAction = StackActions.reset({
           index: 1,
           actions: [
             NavigationActions.navigate({routeName: 'TabList', params: {msg: {}}}),

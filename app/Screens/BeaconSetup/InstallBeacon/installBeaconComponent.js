@@ -33,7 +33,32 @@ import {NavigationActions} from 'react-navigation';
 import Header from '../../../components/back_header.js';
 import CONFIG from '../../../config/config.js';
 import Helper from '../../../config/Helper.js';
-
+const responseData = [
+            {
+                "fullname": "John Doe",
+                "client_id": 26,
+                "avatar": "https://staging-evvsystem.s3.amazonaws.com/uploads/client/avatar/1/thumb_b3d14329-ae01-437d-ae11-2fdd78060349.png",
+                "uuid": "E2C56DB5-DFFB-48C2-B060-0000F3432423"
+            },
+            {
+                "fullname": "Vipra",
+                "client_id": 29,
+                "avatar": "https://staging-evvsystem.s3.amazonaws.com/uploads/client/avatar/1/thumb_b3d14329-ae01-437d-ae11-2fdd78060349.png",
+                "uuid": "E2C56DC6-DFFB-48D2-B060-0000FF277733"
+            },
+                        {
+                "fullname": "Tanvi",
+                "client_id": 26,
+                "avatar": "https://staging-evvsystem.s3.amazonaws.com/uploads/client/avatar/1/thumb_b3d14329-ae01-437d-ae11-2fdd78060349.png",
+                "uuid": "E2C56DB5-DFFB-48C2-B060-0000F3432423"
+            },
+            {
+                "fullname": "Mike",
+                "client_id": 29,
+                "avatar": "https://staging-evvsystem.s3.amazonaws.com/uploads/client/avatar/1/thumb_b3d14329-ae01-437d-ae11-2fdd78060349.png",
+                "uuid": "E2C56DC6-DFFB-48D2-B060-0000FF277733"
+            }
+        ]
 export default class InstallBeaconComponent extends Component{
 
   constructor(props) {
@@ -59,29 +84,14 @@ export default class InstallBeaconComponent extends Component{
   }
 
   async _getClientList(query){
-    console.log("query ----------------", this.state.query, query)
-    let body = {
-      query_string: query
-    }
-    this.props.fetchClientList(body)
-    .then((responseData) =>
-    {
-      console.log("----------------------->")
-      console.log(responseData);
-      if (responseData.status === true){
-        let height = (responseData.data.clients.length > 4) ? 180 : null
-        console.log(height, "height        ------")
-        if(this.state.query.length > 1){
-          this.setState({clients: responseData.data.clients, scroll_height: height});
-        }
-      }else if (responseData.status === false){
-        this.setState({clients: [], scroll_height: null});
-      }
-    })
-    .catch((error) => {
-      Helper.apiResponseAlert(error, CONFIG.get_client_list);
-      console.log(error)
-    });
+    let height = (responseData.length > 4) ? 180 : null
+    const regex = new RegExp(`${query.trim()}`, 'i');
+    let data = [];
+    console.log(height, "height        ------")
+    if(this.state.query.length > 1){
+      data=responseData.filter(film => film.fullname.search(regex) >= 0);
+      this.setState({clients: data, scroll_height: height});
+    }    
   }
 
   _navigate(name, params) {

@@ -70,63 +70,16 @@ export default class ShowMessage extends Component {
   }
 
   async _updateClientBeacon(){
-    if(this.props.longitude === ''){
-      this.props.fetchLocation();
-    }
-    this.setState({confirm_disabled: true})
-    try {
-      let body = {
-        client_id: this.props.client_id,
-        beacon_uuid: this.props.uuid,
-        latitude: this.props.latitude,
-        longitude: this.props.longitude
-      }
-      this.props.beaconUpdate(body)
-      .then((res) => {
-        console.log(res);
-        if (res.status === true)
-        {
-          this.header._alert({status: 'success', message: res.message});
-          this.setState({confirm_disabled: false});
-          this.props.BeaconSetupDataChange('button', false);
-          setTimeout(() => {
-            this._navigate('InstallBeacon', {});
-          }, 1500);
-        }
-        else if (res.status === false){
-          this.setState({confirm_disabled: false});
-          this.header._alert({status: 'error', message: res.message});
-        }
-      }).catch((error) => {
-        Helper.apiResponseAlert(error, CONFIG.update_beacon_api);
-        console.log(error, "inside method")
-        this.setState({confirm_disabled: false});
-      });
-    } catch(error) {
-      console.log(error, "==========> update beacon password");
-    }
+    this.header._alert({status: 'success', message: "Unit updated successfully!!"});
+    this.setState({confirm_disabled: false});
+    this.props.BeaconSetupDataChange('button', false);
+    setTimeout(() => {
+      this._navigate('InstallBeacon', {fromShow: true});
+    }, 1500);
   }
 
   async _verifyClientBeacon(){
-    let body = {
-      client_id: this.props.client_id,
-      beacon_uuid: this.props.uuid
-    }
-    this.props.beaconVerify(body)
-    .then((responseData) =>
-    {
-      console.log("----------------------->")
-      console.log(responseData);
-      if (responseData.status === true){
-        this.setState({verification_icon: true, verification_message: responseData.message, loading: false});
-      }else if (responseData.status === false){
-        this.setState({verification_icon: false, verification_message: responseData.message, loading: false});
-      }
-    })
-     .catch((error) => {
-       Helper.apiResponseAlert(error, CONFIG.verify_beacon_api);
-       console.log(error, "===========> _verifyClientBeacon");
-    }); 
+    this.setState({verification_icon: true, verification_message: "Unit verified successfully!!", loading: false}); 
   }
 
   _renderConfirm(){
@@ -135,7 +88,7 @@ export default class ShowMessage extends Component {
         <Icon name='md-alert' style={styles.warning_Icon}/>
         <View style={{marginBottom: 15}}>
           <Text style={styles.grayTextStyle}>
-            {'Unit linked to '+this.state.client_name}
+            Unit linked
           </Text>
         </View>
         <View style={{marginBottom: 15}}>
