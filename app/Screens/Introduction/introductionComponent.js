@@ -45,13 +45,14 @@ export default class IntroductionComponent extends Component {
   }
 
   _checkRoutes(){
-    let params = this.props.navigation.state.params.msg;
-    if (this.props.navigation.state.params.log_out != null){
-      // this._back_press();
-      this.props.navigation.goBack();
-    }else{
-      this._navigate('TabList', {show_checklist: true});
-    }
+    // let params = this.props.navigation.state.params.msg;
+    // if (this.props.navigation.state.params.log_out != null || this.state.fromTab === true){
+    //   // this._back_press();
+    //   this.props.navigation.goBack();
+    // }else{
+      
+    // }
+    this._navigate('TabList', {show_checklist: true});
   }
 
   _back_press(){
