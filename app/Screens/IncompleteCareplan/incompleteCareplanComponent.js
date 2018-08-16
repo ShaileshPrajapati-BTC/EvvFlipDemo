@@ -26,6 +26,27 @@ import _ from 'lodash';
 import moment from 'moment-timezone';
 import { StackActions,NavigationActions } from 'react-navigation';
 
+const responseData = {
+  call_to_duty_enabled:false,
+  is_live_in_over:false,
+  live_in_incomplete:false,
+  live_in_questions:[],
+  todos:[{category_name: "Custom CP 1", 
+      todo_list: [
+      {todo_id: 1, todo_name: "CP Task 1", todo_phrase: "Did u test this CP ?", status: "yes"},
+      {todo_id: 139, todo_name: "Private CP TASK", todo_phrase: "DID YOU SERVE THIS?", status: "none"}]
+      },
+      {category_name: "Nutrition", 
+      todo_list: [
+      {todo_id: 1, todo_name: "Serve", todo_phrase: "Did you serve a meal?", status: "yes"},
+      {todo_id: 139, todo_name: "Breakfast", todo_phrase: "Did the Client eat breakfast?", status: "none"},
+      {todo_id: 1, todo_name: "Lunch", todo_phrase: "Did you serve a lunch?", status: "none"},
+      {todo_id: 139, todo_name: "Dinner", todo_phrase: "Did the Client eat dinner?", status: "none"}
+      ]
+      }]
+}
+
+
 export default class IncompleteCheckList extends Component {
 
   constructor(props) {
@@ -161,27 +182,25 @@ export default class IncompleteCheckList extends Component {
   }
   
   _confirmationForSubmit(){
-    this._enableLocation(() => {
-      console.log(this.state.checkout_time, "checkout time")
-      if (_.find(this.questionResponseData,{status:'none'}) !== undefined){
-        this.header._alert({status: 'error', message: "Please answer the questions."});
-      } else if (_.find(this.responseData,{status:'none'}) !== undefined){
-        this.header._alert({status: 'error', message: "Please submit the all care plans."});
-      } else if(this.state.leave_time === '' && !this.state.live_in_incomplete) {
-        this.header._alert({status: 'error', message: "Please select leave time"});
-      } else {
-        Helper._alertPopupButtonCallBack(
-          CONFIG.carePlanTitle,
-          CONFIG.carePlanMessage,
-          () => {
-            console.log("cancel")
-          },
-          () => {
-            this._sendTodoList()
-          }
-        )
-      }
-    });
+    console.log(this.state.checkout_time, "checkout time")
+    if (_.find(this.questionResponseData,{status:'none'}) !== undefined){
+      this.header._alert({status: 'error', message: "Please answer the questions."});
+    } else if (_.find(this.responseData,{status:'none'}) !== undefined){
+      this.header._alert({status: 'error', message: "Please submit the all care plans."});
+    } else if(this.state.leave_time === '' && !this.state.live_in_incomplete) {
+      this.header._alert({status: 'error', message: "Please select leave time"});
+    } else {
+      Helper._alertPopupButtonCallBack(
+        CONFIG.carePlanTitle,
+        CONFIG.carePlanMessage,
+        () => {
+          console.log("cancel")
+        },
+        () => {
+          this._sendTodoList()
+        }
+      )
+    }
   }
 
   _handleFormSubmit() {
@@ -203,32 +222,16 @@ export default class IncompleteCheckList extends Component {
 
 
   async _getTodoList(){
-    let body = this._setParams();
-    this.props.fetchIncompleteCareplan(body)
-    .then((responseData) =>
-    {
-      console.log("----------------------->")
-      console.log(responseData);
-      if(responseData.status === true){
-        let question = responseData.data.live_in_questions
-        this.responseData = responseData.data.todos;
-        this.questionResponseData = (responseData.data.call_to_duty_enabled === false) ? [] : question[0]["todo_list"]
-        this._makeFinalArray();
-        this.setState({
-          questions: question === undefined ? [] : question[0],
-          data: responseData.data.todos, 
-          call_to_duty_enabled: responseData.data.call_to_duty_enabled,
-          live_in_incomplete: responseData.data.live_in_incomplete,
-          loading: false
-        });
-      }else if(responseData.status === false){
-        this.setState({loading: false});
-      }
-    })
-    .catch((error) => {
-      Helper.apiResponseAlert(error, CONFIG.get_todo_list);
-      this.setState({loading: false});
-      console.log(error, "===========>>>>>> get todo list")
+    this.setState({loading: true})
+    this.responseData = responseData.todos;
+    this.questionResponseData = []
+    this._makeFinalArray();
+    this.setState({
+      questions: [],
+      data: responseData.todos, 
+      call_to_duty_enabled: false,
+      live_in_incomplete: false,
+      loading: false
     });
   }
   
@@ -237,47 +240,7 @@ export default class IncompleteCheckList extends Component {
   }
 
   async _sendTodoList(){
-    this.setState({disabled: true, loading: true});
-    let leave_time = (this.state.live_in_incomplete === true)? '20:00' : this.state.leave_time;
-    let date = (this.props.visit_data.date === undefined)? moment().format(CONSTANTS.date_format) : this.props.visit_data.date
-    console.log("date---", Helper.convertDateToUtc(date+' '+leave_time));
-    let data = {
-      todo_list: this.responseData,
-      live_in_questions: this.questionResponseData,
-      extra_milage: this.state.extra_milage,
-      injury_status: this.state.injury_status,
-      actual_end_time: Helper.convertDateToUtc(date+' '+leave_time),
-      call_to_duty_hours: this.state.call_to_duty_hour,
-      latitude: this.state.latitude,
-      longitude: this.state.longitude,
-      mobile_location: this.state.mobile_location,
-      mobile_battery: this.state.mobile_battery
-    }
-    
-    let params;
-    if (this.props.visit_data.visit_type === 'Appointment'){
-      params = Object.assign(data, {appointment_id: this.props.visit_data.visit});
-    }else{
-      params = Object.assign(data, {client_visit_id: this.props.visit_data.visit});
-    }
-
-    this.props.submitIncompleteCareplan(params)
-    .then((res) =>{
-      if (res.status === true){
-        if(this.props.notificationCount!=null){
-          this.props.notificationCount();
-        }
-        this._navigate('TabList', {status: 'success', message: res.message});
-      }
-      else{
-        this.header._alert({status: 'error', message: res.message});
-        this.setState({disabled: false, loading: false});
-      }
-    })
-    .catch((error) =>{
-      Helper.apiResponseAlert(error, CONFIG.care_plan_submit_error);
-      this.setState({disabled: false, loading: false});
-    });
+    this._navigate('TabList', {status: 'success', message: "Your checklist is submitted successfully!!"});
   }
 
   _onRefresh(){

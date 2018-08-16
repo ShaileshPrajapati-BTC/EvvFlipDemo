@@ -4,7 +4,7 @@ import _ from 'lodash';
 const initialState = {
   mobile: '',
   password: '',
-  login: true,
+  login: false,
   disabled: false,
   deviceInfo : {},
   showPassword: false,

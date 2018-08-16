@@ -144,7 +144,7 @@ export default class SideMenu extends Component {
               </Body>
               <Right/>
             </ListItem>
-            {(this.props.userData.unit_setup_accesible === true)?
+{/*            {(this.props.userData.unit_setup_accesible === true)?
             <ListItem icon  onPress={()=> this._navigate('InstallBeacon')}>
               <Left>
               <Icon name="md-qr-scanner" style={{color: CONFIG.theme_color}}/>
@@ -153,7 +153,7 @@ export default class SideMenu extends Component {
               <Text>Unit Setup</Text>
               </Body>
               <Right/>
-              </ListItem>: null}
+              </ListItem>: null}*/}
             <ListItem icon  onPress={()=> this._navigate('Blog')}>
               <Left>
                 <Icon name="md-paper" style={{color: CONFIG.theme_color}}/>

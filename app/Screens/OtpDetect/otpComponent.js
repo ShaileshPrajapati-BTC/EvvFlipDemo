@@ -122,60 +122,18 @@ export default class OtpDetect extends Component {
 
   async _checkOtp() {
     this.setState({otp_disabled: true})
-    try {
-      let body = {
-        mobile: this.state.forget_mobile,
-        otp: this.state.otp
-      }
-      this.props.VerifyOtp(body)
-        .then((res) => {
-          console.log(res);
-          if (res.status === true) {
-            this.otp_dropdown.alertWithType('success', 'Thank you!', res.message);
-            setTimeout(() => {
-              this._navigate('SetPassword', {mobile: this.state.forget_mobile, otp: this.state.otp});
-              this.setState({otp_disabled: false});
-            }, 600);
-          }
-          else if (res.status === false) {
-            this.setState({otp_disabled: false});
-            this.otp_dropdown.alertWithType('error', '', res.message);
-          }
-        }).catch((error) => {
-        Helper.apiResponseAlert(error, CONFIG.otp_api_error_404);
-        console.log(error, "inside method")
-      });
-    } catch (error) {
-      console.log(error, "==========> OTP password");
-    }
+    this.otp_dropdown.alertWithType('success', 'Thank you!', "OTP verified successfully!");
+    setTimeout(() => {
+      this._navigate('SetPassword', {mobile: this.state.forget_mobile, otp: this.state.otp});
+      this.setState({otp_disabled: false});
+    }, 600);
   }
 
   async _reSendOTP() {
     this.setState({otp: ''});
     this.setState({otp_disabled: true})
-    try {
-      let body = {
-        mobile: this.state.forget_mobile,
-      }
-      this.props.ForgotPassword(body)
-        .then((res) => {
-          console.log(res);
-          if (res.status === true) {
-            this.otp_dropdown.alertWithType('success', 'Thank you!', res.message);
-            this.setState({otp_disabled: false});
-          }
-          else if (res.status === false) {
-            this.setState({otp_disabled: false});
-            this.otp_dropdown.alertWithType('error', '', res.message);
-          }
-        }).catch((error) => {
-        Helper.apiResponseAlert(error, CONFIG.forgot_api_error_404);
-        console.log(error, "inside method")
-        this.setState({otp_disabled: false});
-      });
-    } catch (error) {
-      console.log(error, "==========> resend otp");
-    }
+    this.otp_dropdown.alertWithType('success', 'Thank you!', "OTP will be sent via SMS");
+    this.setState({otp_disabled: false});
   }
 
   render() {

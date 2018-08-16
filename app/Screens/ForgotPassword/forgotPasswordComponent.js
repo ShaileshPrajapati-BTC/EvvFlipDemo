@@ -69,32 +69,10 @@ export default class ForgotPasswordComponent extends Component {
 
   async forgot_password(){
     this.setState({forget_disabled: true})
-    try {
-        let body = {
-          mobile: this.state.forget_mobile,
-        }
-        this.props.ForgotPassword(body)
-        .then((res) => {
-          console.log(res,"---f-f-f-f");
-          if (res.status === true)
-          {
-            this.forgot_dropdown.alertWithType('success', 'Thank you!', res.message);
-            setTimeout(() => {
-              this._navigate('OtpDetect',{mobile: this.state.forget_mobile});
-            }, 600);
-          }
-          else if (res.status === false){
-            this.forgot_dropdown.alertWithType('error', '', res.message);
-          }
-          this.setState({forget_disabled: false});
-        }).catch((error) => {
-          Helper.apiResponseAlert(error, CONFIG.forgot_api_error_404);
-          console.log(error,"inside method")
-          this.setState({forget_disabled: false});
-        });
-    } catch(error) {
-      console.log(error, "==========> forgot password");
-    }
+    this.forgot_dropdown.alertWithType('success', 'Thank you!', "OTP will be sent via SMS");
+    setTimeout(() => {
+      this._navigate('OtpDetect',{mobile: this.state.forget_mobile});
+    }, 600);
   }
   render(){
     return(

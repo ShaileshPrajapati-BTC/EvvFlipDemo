@@ -34,7 +34,11 @@ export default class SplashComponent extends Component {
 
   checkLogin(remove_skip = false){ //send true when remove skip btn date validation
     setTimeout(()=>{
-      this._navigate('Login','');
+      if(this.props.isLoggedIn === false){
+        this._navigate('Login','');
+      }else{
+        this._navigate('TabList', {show_checklist: true, tracking: true});
+      }
 
       // this.setState({loading: false});
     }, 1000)

@@ -54,6 +54,7 @@ export default class LoginComponent extends Component {
     //     msg: msg_obj
     //   }
     // })
+    this.props.MobileChange('login', true)
     const navigate = NavigationActions.navigate({
       routeName: name,
       params: { msg: msg_obj }

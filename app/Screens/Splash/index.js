@@ -7,7 +7,8 @@ import SplashComponent from './splashComponent';
 const mapStateToProps = state => ({
 	mobile: state.reducer.login.mobile,
 	splash: state.reducer.splash,
-	login: state.reducer.login
+	login: state.reducer.login,
+	isLoggedIn: state.reducer.login.login
 });
 
 const mapDispatchToProps = {

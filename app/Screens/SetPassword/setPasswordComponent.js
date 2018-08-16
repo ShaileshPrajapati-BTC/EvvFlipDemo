@@ -24,7 +24,7 @@ import CONFIG from '../../config/config.js';
 import Helper from '../../config/Helper.js';
 import DropdownAlert from 'react-native-dropdownalert';
 import FormPasswordInput from '../../components/formPasswordInput.js';
-import { NavigationActions } from "react-navigation";
+import { NavigationActions,StackActions } from "react-navigation";
 
 export default class SetPassword extends Component {
   
@@ -52,7 +52,7 @@ export default class SetPassword extends Component {
   }
   
   _back_press(){
-    const resetAction = NavigationActions.reset({
+    const resetAction = StackActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({
         routeName: 'Login'
@@ -77,8 +77,8 @@ export default class SetPassword extends Component {
 
     this.setState({reset_disabled: true})
     this.reset_password.alertWithType("success", "Thank you!", "Changed password successfully");
-    this.setState({reset_disabled: false, forget_mobile: ''});
     setTimeout(() => {
+      this.setState({reset_disabled: false, forget_mobile: ''});
       this._back_press();
     }, 1000);
   }

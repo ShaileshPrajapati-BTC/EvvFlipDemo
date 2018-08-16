@@ -51,8 +51,9 @@ export default class ResetPassword extends Component {
 
   async reset_password_api(){
     this.setState({reset_disabled: true})
-    this.header._alert("success", "Thank you!", "Changed password successfully");
+    this.header._alert({status: 'success', message: 'Changed password successfully'});
     this.setState({reset_disabled: false, forget_mobile: ''});
+    console.log("d--")
     setTimeout(() => {
       this.props.navigation.goBack();
       if(this.props.log_out != null){

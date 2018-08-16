@@ -38,7 +38,7 @@ import SideMenu from '../SideMenu/index.js';
 // import FCM from 'react-native-fcm';
 import DropdownAlert from 'react-native-dropdownalert';
 import ScanComponent from '../Scan/index.js';
-import {NavigationActions} from "react-navigation";
+import {NavigationActions,  StackActions} from "react-navigation";
 
 
 export default class TabList extends Component {
@@ -148,41 +148,14 @@ export default class TabList extends Component {
   };
 
   _logoutAfterResetPassword = () => {
-    try {
-      let body = {
-        longitude: '',
-        latitude: '',
-        device_info: this.props.deviceinfo
-      }
-      let uuid = this.props.userData.uuid
-      this.props.Logout(body)
-        .then((res) => {
-          console.log(res);
-          if (res.status === true) {
-            // this._offlineTrackDataSend();
-            // this._stopTracking();
-            // $this._stopAndroidLocationTracking();
-            AsyncStorage.removeItem("fcm_token");
-            // FCM.setBadgeNumber(0);
-            // this.props.StopBeacon(true, uuid);
-            const resetAction = NavigationActions.reset({
-              index: 0,
-              actions: [NavigationActions.navigate({
-                routeName: 'Login'
-              })],
-            });
-            this.props.navigation.dispatch(resetAction);
-          }
-          else if (res.status === false) {
-            Helper._alertPopup('', res.message);
-          }
-        }).catch((error) => {
-        Helper.apiResponseAlert(error, CONFIG.logout_api_error_404);
-        console.log(error, "++++++++++++ logout");
-      });
-    } catch (error) {
-      console.log(error, "=========> logout");
-    }
+    this.props.MobileChange('login', false)
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({
+        routeName: 'Login'
+      })],
+    });
+    this.props.navigation.dispatch(resetAction);
   };
 
   handleChangeTab = ({i, ref, from,}) => {

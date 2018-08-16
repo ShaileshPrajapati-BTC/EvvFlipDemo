@@ -3,7 +3,7 @@ import {UpdateNotificationCount} from './tabListActions';
 
 // import {StopBeacon,SendAppOpenTracking} from '../Tracking/trackingActions.js';
 
-import {Logout} from '../Login/loginActions';
+import {Logout,MobileChange} from '../Login/loginActions';
 
 import TabListComponent from './tabListComponent';
 
@@ -20,7 +20,8 @@ const mapDispatchToProps = {
 	UpdateNotificationCount,
 	// StopBeacon,
 	Logout,
-	// SendAppOpenTracking
+	// SendAppOpenTracking,
+	MobileChange
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabListComponent);
