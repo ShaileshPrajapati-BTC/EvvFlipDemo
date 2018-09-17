@@ -3,7 +3,8 @@ import {Button, Container, Content, Form, Header, Icon, Input, Item, Label, Spin
 
 import {AsyncStorage, Image, StatusBar,} from 'react-native';
 
-import CONFIG from '../../config/config.js';
+// import CONFIG from '../../config/config.js';
+import {JapanConfig as CONFIG} from '../../config/japan.js';
 import DropdownAlert from 'react-native-dropdownalert';
 import Helper from '../../config/Helper.js';
 import FormPasswordInput from '../../components/formPasswordInput.js';
@@ -31,7 +32,7 @@ export default class LoginComponent extends Component {
   }
 
   async login(){
-    this._checkIntroduction("Successfully logged in");
+    this._checkIntroduction(CONFIG.successLogin);
   }
   _checkIntroduction(message){
     console.log("sss");
@@ -82,11 +83,11 @@ export default class LoginComponent extends Component {
           <Form style={{alignSelf: 'center', marginTop:50, marginRight: 15}}>
             <FormMobileInput 
               name = 'mobile'
-              placeholder = 'Mobile number'
+              placeholder = {CONFIG.mobileNumber}
               onTextChange={(name, value) => this.props.MobileChange(name, value)}
             />
             <FormPasswordInput 
-              placeholder = "Password"
+              placeholder = {CONFIG.password}
               name = 'password'
               onTextChange={(name, value) => this.props.MobileChange(name, value)}
             />
@@ -94,9 +95,9 @@ export default class LoginComponent extends Component {
               style={{justifyContent:'center',borderColor: CONFIG.theme_color, backgroundColor: CONFIG.theme_color,borderRadius:10, marginTop: 25, marginBottom: 20, marginLeft:15,width:285,borderWidth:1 }} 
               onPress={ () => this._validate() }
             >
-              {(this.props.login.disabled)? <Spinner color='#ffffff'/> : <Text>SIGN IN</Text>}
+              {(this.props.login.disabled)? <Spinner color='#ffffff'/> : <Text>{CONFIG.singIn}</Text>}
             </Button>
-            <Text style={{alignSelf:'center', color: CONFIG.theme_color}} onPress={ () => this._forgotClick() }> Forgot password? </Text>
+            <Text style={{alignSelf:'center', color: CONFIG.theme_color}} onPress={ () => this._forgotClick() }> {CONFIG.forgotPassword} </Text>
           </Form>
         </Content>
         <DropdownAlert ref={(ref) => this.dropdown = ref} updateStatusBar={false} successColor={CONFIG.success_color} titleNumOfLines={0}/>
