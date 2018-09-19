@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import {Button, Container, Content, Spinner} from 'native-base';
+import {Text, Container, Content, Spinner} from 'native-base';
 
 import {Alert, AsyncStorage, Image, Linking, Platform, StatusBar} from 'react-native';
 import { NavigationActions } from "react-navigation";
 import CONFIG from '../../config/config.js';
+import THEME from '../../config/theme.js';
+
 import Helper from '../../config/Helper.js';
 import moment from 'moment-timezone';
 
@@ -62,10 +64,11 @@ export default class SplashComponent extends Component {
   render() {
     return (
       <Container>
-        <Content scrollEnabled={false} contentContainerStyle={{flex: 1,justifyContent: 'center',alignItems: 'center'}}>
-          <StatusBar backgroundColor={CONFIG.theme_color}/>
-          <Image square  style={{alignSelf: 'center', width:300, height:60 }} source={require('../../images/Logoo.png')}  />
-          <Spinner color={CONFIG.theme_color}/>            
+        <Content scrollEnabled={false} contentContainerStyle={{flex: 1,justifyContent: 'center',alignItems: 'center',backgroundColor: THEME.themeColor}}>
+          <StatusBar backgroundColor={THEME.themeColor}/>
+          <Image square  style={{alignSelf: 'center', width:150, height:150 }} source={require('../../images/logoo.png')}  />
+          <Text style={{fontSize: 30, color: THEME.textColor,padding: 10}}>{CONFIG.splashText}</Text>
+          <Spinner color={THEME.spinnerColor}/>            
         </Content>
       </Container>
     );

@@ -8,7 +8,7 @@ module.exports = {
   password: 'Please enter your password',
   invalid_mobile: 'Please enter valid mobile number',
   invalid_qr_code: 'Invalid QR code.',
-  theme_color: '#004FBB',
+  theme_color: '#4f8c33',
   disabled_color: '#848f9e',
   success_color: '#00B325',
   error_color: '#cc3232',
@@ -61,5 +61,7 @@ module.exports = {
   notAbleToCheckIn: 'You are not authorized to visit the client.',
   notAbleToSubmitChecklist: 'You are not authorized to use the Checklist',
   carePlanTitle: "Confirmation",
-  carePlanMessage: "Are you sure you want to submit?"
+  carePlanMessage: "Are you sure you want to submit?",
+  splashText: 'Omni Tracking',
+  forgotPassword: 'Forgot your password ?'
 };

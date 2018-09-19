@@ -3,13 +3,14 @@ import {Button, Container, Content, Form, Header, Icon, Input, Item, Label, Spin
 
 import {AsyncStorage, Image, StatusBar,} from 'react-native';
 
-// import CONFIG from '../../config/config.js';
-import {JapanConfig as CONFIG} from '../../config/japan.js';
+import CONFIG from '../../config/config.js';
+// import {JapanConfig as CONFIG} from '../../config/japan.js';
 import DropdownAlert from 'react-native-dropdownalert';
 import Helper from '../../config/Helper.js';
 import FormPasswordInput from '../../components/formPasswordInput.js';
 import FormMobileInput from '../../components/formMobileInput.js';
 import { NavigationActions } from "react-navigation";
+import THEME from '../../config/theme.js';
 
 export default class LoginComponent extends Component {
 
@@ -77,31 +78,62 @@ export default class LoginComponent extends Component {
     console.log(this.props)
     return(
       <Container >
-        <Content scrollEnabled={false} contentContainerStyle={{flex: 1,justifyContent: 'center',alignItems: 'center'}}>
-          <StatusBar backgroundColor={CONFIG.theme_color}/>
-          <Image square  style={{alignSelf: 'center', width:300, height:60 }} source={require('../../images/Logoo.png')}  />
-          <Form style={{alignSelf: 'center', marginTop:50, marginRight: 15}}>
+        <Content scrollEnabled={false} 
+          contentContainerStyle={styles.containerStyle}>
+          <StatusBar backgroundColor={THEME.themeColor}/>
+          <Image square  style={styles.logoStyle} source={require('../../images/logoo.png')}/>
+          <Form style={styles.formStyles}>
             <FormMobileInput 
               name = 'mobile'
-              placeholder = {CONFIG.mobileNumber}
+              placeholder = {"Mobile Number"}
               onTextChange={(name, value) => this.props.MobileChange(name, value)}
             />
             <FormPasswordInput 
-              placeholder = {CONFIG.password}
+              placeholder = {"Password"}
               name = 'password'
               onTextChange={(name, value) => this.props.MobileChange(name, value)}
             />
             <Button 
-              style={{justifyContent:'center',borderColor: CONFIG.theme_color, backgroundColor: CONFIG.theme_color,borderRadius:10, marginTop: 25, marginBottom: 20, marginLeft:15,width:285,borderWidth:1 }} 
+              style={styles.buttonStyle} 
               onPress={ () => this._validate() }
             >
-              {(this.props.login.disabled)? <Spinner color='#ffffff'/> : <Text>{CONFIG.singIn}</Text>}
+              {(this.props.login.disabled)? <Spinner color='#ffffff'/> : <Text style={{color: THEME.buttonTextColor}}>SIGN IN</Text>}
             </Button>
-            <Text style={{alignSelf:'center', color: CONFIG.theme_color}} onPress={ () => this._forgotClick() }> {CONFIG.forgotPassword} </Text>
+            <Text style={{alignSelf:'center', color: THEME.clickText}} onPress={ () => this._forgotClick() }> {CONFIG.forgotPassword} </Text>
           </Form>
         </Content>
         <DropdownAlert ref={(ref) => this.dropdown = ref} updateStatusBar={false} successColor={CONFIG.success_color} titleNumOfLines={0}/>
       </Container>
     )
+  }
+}
+
+const styles = {
+  containerStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: THEME.themeColor
+  },
+  buttonStyle: {
+    justifyContent: 'center',
+    borderColor: THEME.buttonColor,
+    backgroundColor: THEME.buttonColor,
+    borderRadius: 5,
+    marginTop: 25,
+    marginBottom: 20,
+    marginLeft: 15,
+    width: 285,
+    borderWidth: 1
+  },
+  logoStyle: {
+    alignSelf: 'center',
+    width: 100,
+    height: 100
+  },
+  formStyles: {
+    alignSelf: 'center',
+    marginTop: 50,
+    marginRight: 15
   }
 }

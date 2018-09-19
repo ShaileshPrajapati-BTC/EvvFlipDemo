@@ -5,6 +5,7 @@ import {
 	Label,
 	Icon
 } from 'native-base';
+import THEME from '../config/theme.js';
 
 export default class FormMobileInput extends Component {
 	constructor(props) {
@@ -16,12 +17,12 @@ export default class FormMobileInput extends Component {
 
   render() {
   	return (
-      <Item style={{borderColor: "#b5b3b3",borderWidth: 1, borderRadius:5,marginBottom:10}} >
-        <Icon active name='ios-call' style={{fontSize: 30, paddingLeft: 15}}/>
+      <Item style={{borderColor: THEME.inputIconColor,borderWidth: 1, borderRadius:5,marginBottom:10}} >
+        <Icon active name='ios-call' style={{fontSize: 30, paddingLeft: 15, color: THEME.inputIconColor}}/>
         <Input 
           maxLength={10} 
           placeholder={this.props.placeholder} 
-          placeholderTextColor="#b5b3b3" 
+          placeholderTextColor={THEME.textColor} 
           style={{fontSize: 20}} 
           keyboardType="numeric" 
           autoFocus = {false} 
