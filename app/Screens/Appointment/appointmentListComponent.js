@@ -11,7 +11,9 @@ import {
   Text,
   Badge,
   Icon,
-  Card
+  Card,
+  Fab,
+  Button
 } from 'native-base';
 
 import {
@@ -27,6 +29,7 @@ import Nodata from '../../components/no_data.js';
 import Loading from '../../components/Loading.js';
 import Helper from '../../config/Helper.js';
 import moment from 'moment-timezone';
+import THEME from '../../config/theme';
 
 export default class AppointmentList extends Component {
 
@@ -35,6 +38,7 @@ export default class AppointmentList extends Component {
     this.state ={
       loading: true,
       refreshing: false,
+      active: false
     };
   }
 
@@ -147,6 +151,24 @@ export default class AppointmentList extends Component {
             :
             <Nodata message="No appointments scheduled."/> }
           </Content>}
+          <Fab
+            active={this.state.active}
+            direction="up"
+            containerStyle={{ }}
+            style={{ backgroundColor: THEME.themeColor }}
+            position="bottomRight"
+            onPress={() => this.setState({ active: !this.state.active })}>
+            <Icon name="md-calendar" />
+            <Button style={{ backgroundColor: '#34A34F' }}>
+              <Icon name="logo-whatsapp" />
+            </Button>
+            <Button style={{ backgroundColor: '#3B5998' }}>
+              <Icon name="logo-facebook" />
+            </Button>
+            <Button style={{ backgroundColor: '#DD5144' }}>
+              <Icon name="mail" />
+            </Button>
+          </Fab>
       </Container>
     );
   }

@@ -11,6 +11,7 @@ import FormPasswordInput from '../../components/formPasswordInput.js';
 import FormMobileInput from '../../components/formMobileInput.js';
 import { NavigationActions } from "react-navigation";
 import THEME from '../../config/theme.js';
+import CommonStyles from '../../config/commonStyle.js';
 
 export default class LoginComponent extends Component {
 
@@ -81,23 +82,24 @@ export default class LoginComponent extends Component {
         <Content scrollEnabled={false} 
           contentContainerStyle={styles.containerStyle}>
           <StatusBar backgroundColor={THEME.themeColor}/>
-          <Image square  style={styles.logoStyle} source={require('../../images/logoo.png')}/>
+          <Image square  style={CommonStyles.logoStyle} source={require('../../images/logoo.png')}/>
           <Form style={styles.formStyles}>
             <FormMobileInput 
               name = 'mobile'
-              placeholder = {"Mobile Number"}
+              placeholder = {CONFIG.mobileNumberLabel}
               onTextChange={(name, value) => this.props.MobileChange(name, value)}
             />
             <FormPasswordInput 
-              placeholder = {"Password"}
+              placeholder = {CONFIG.passwordLabel}
               name = 'password'
               onTextChange={(name, value) => this.props.MobileChange(name, value)}
             />
             <Button 
-              style={styles.buttonStyle} 
+              style={CommonStyles.buttonStyle} 
               onPress={ () => this._validate() }
             >
-              {(this.props.login.disabled)? <Spinner color='#ffffff'/> : <Text style={{color: THEME.buttonTextColor}}>SIGN IN</Text>}
+              {(this.props.login.disabled)? <Spinner color={THEME.themeColor}/> : 
+                <Text style={CommonStyles.buttonTextStyle}>{CONFIG.signIn}</Text>}
             </Button>
             <Text style={{alignSelf:'center', color: THEME.clickText}} onPress={ () => this._forgotClick() }> {CONFIG.forgotPassword} </Text>
           </Form>
@@ -114,22 +116,6 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: THEME.themeColor
-  },
-  buttonStyle: {
-    justifyContent: 'center',
-    borderColor: THEME.buttonColor,
-    backgroundColor: THEME.buttonColor,
-    borderRadius: 5,
-    marginTop: 25,
-    marginBottom: 20,
-    marginLeft: 15,
-    width: 285,
-    borderWidth: 1
-  },
-  logoStyle: {
-    alignSelf: 'center',
-    width: 100,
-    height: 100
   },
   formStyles: {
     alignSelf: 'center',

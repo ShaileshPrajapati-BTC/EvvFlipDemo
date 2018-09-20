@@ -17,7 +17,8 @@ export default class FormPasswordInput extends Component {
 				<Input 
 						placeholder={this.props.placeholder} 
 						placeholderTextColor={THEME.inputIconColor}
-						style={{fontSize: 20}} autoFocus = {false} secureTextEntry={this.state.showPassword}
+						style={{fontSize: 20, color:THEME.textColor}} 
+						autoFocus = {false} secureTextEntry={this.state.showPassword}
 						returnKeyType = {'send'}
 						onChangeText={(text) => this.props.onTextChange(this.props.name, text)}
 				/>

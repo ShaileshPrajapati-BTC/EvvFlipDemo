@@ -4,42 +4,30 @@ import {
   Body,
   Button,
   Container,
-  Content,
-  Form,
   Header,
   Icon,
-  Input,
-  Item,
   Left,
-  List,
-  ListItem,
   Right,
-  Spinner,
-  Switch,
   Tab,
   TabHeading,
   Tabs,
-  Text,
-  Thumbnail,
-  Title
+  Text
 } from 'native-base';
 
-import {Alert, AppState, AsyncStorage, LinkingIOS, Platform, StatusBar} from 'react-native';
-import Drawer from 'react-native-drawer'
+import {Alert, StatusBar,DrawerLayoutAndroid,View} from 'react-native';
 
 import CONFIG from '../../config/config.js';
 import LiveTask from '../LiveChecklist/index.js';
 import Nodata from '../../components/no_data.js';
 import AppointmentList from '../Appointment/index.js'
-import Helper from '../../config/Helper.js';
-import PermissionHelper from '../../config/permission_helper.js';
 import SideMenu from '../SideMenu/index.js';
 // import PushNotification from '../NotificationList/pushNotificationController.js';
 // import FCM from 'react-native-fcm';
 import DropdownAlert from 'react-native-dropdownalert';
 import ScanComponent from '../Scan/index.js';
 import {NavigationActions,  StackActions} from "react-navigation";
-
+import THEME from '../../config/theme.js';
+import CommonStyles from '../../config/commonStyle.js';
 
 export default class TabList extends Component {
 
@@ -63,7 +51,7 @@ export default class TabList extends Component {
     console.log(this.props, "TAbl99----")
     let params = this.props.navigation.state.params.msg;
     if (params.status != null) {
-      let title = params.status === "success" ? "Thank you!" : "";
+      let title = params.status === "success" ? CONFIG.successAlertText : "";
       this.dropdown.alertWithType(params.status, title, params.message);
     }
     setTimeout(() => {
@@ -122,11 +110,11 @@ export default class TabList extends Component {
 
   _confirmation_for_logout = () => {
     Alert.alert(
-      'Logout',
-      'Are you sure you want to logout?',
+      CONFIG.logoutTitle,
+      CONFIG.logoutText,
       [
-        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        {text: 'OK', onPress: () => this._logoutAfterResetPassword()},
+        {text: CONFIG.logoutOkBtn, onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: CONFIG.logoutCancelBtn, onPress: () => this._logoutAfterResetPassword()},
       ],
       {cancelable: false}
     )
@@ -135,16 +123,15 @@ export default class TabList extends Component {
   closeDrawer = () => {
     try{
       if(this.drawer!=null){
-        this.drawer.close()
+        this.drawer.closeDrawer()
       }
-      console.log("closed",this.drawer._root)
     }catch(error){
       console.log("drawer error")
     }
   };
 
   openDrawer = () => {
-    this.drawer.open()
+    this.drawer.openDrawer()
   };
 
   _logoutAfterResetPassword = () => {
@@ -180,19 +167,26 @@ export default class TabList extends Component {
     }else if(this.props.userData.user_type === false){
       return (<Nodata message={CONFIG.notAbleToSubmitChecklist}/>)
     }else{
-      return (<Nodata message="Please Check-in to view today's Checklist."/>)
+      return (<Nodata message={CONFIG.checklistViewMsg}/>)
     }
   }
   render() {
     const {pending_count, incomplete_visit_count} = this.props.notification_count.notificationCountData;
     const {fullname, avatar, user_type, token} = this.props.login.loginData;
+    var navigationView = (
+      <View style={{flex: 1, backgroundColor: '#fff'}}>
+        <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>I'm in the Drawer!</Text>
+      </View>
+    );
     try {
       return (
-        <Drawer
+        <DrawerLayoutAndroid
+          drawerWidth={300}
+          drawerPosition={DrawerLayoutAndroid.positions.Left}
           ref={(ref) => {
             this.drawer = ref;
           }}
-          content={<SideMenu
+          renderNavigationView={() =><SideMenu
             _navigate={this._navigate}
             side_menu={false}
             profile={avatar}
@@ -202,45 +196,29 @@ export default class TabList extends Component {
             log_out_after_reset_pass={this._logoutAfterResetPassword}
             incomplete_count={incomplete_visit_count}
             userData={this.props.userData}
-          />}
-          tapToClose={true}
-          openDrawerOffset={0.2} // 20% gap on the right side of drawer
-          panCloseMask={0.2}
-          closedDrawerOffset={-3}
-            tweenHandler={(ratio) => ({
-    main: { opacity:(2-ratio)/2 }
-  })}
-        >
+          />}>
           <Container>
-            <Header style={{backgroundColor: CONFIG.theme_color, height: (Platform.OS === 'ios') ? 74 : 64}}>
+            <Header style={{backgroundColor: THEME.themeColor, height: 64}}>
               <Left style={{flex: 1}}>
                 <Button transparent onPress={() => this.openDrawer()}>
                   <Icon name='md-menu' style={{color: 'white'}}/>
                 </Button>
               </Left>
               <Body style={{flex: 1}}>
-              <Text style={{color: 'white', fontSize: 16}}>EVV Systems</Text>
+                <Text style={CommonStyles.headerTitle}>{CONFIG.headerText}</Text>
               </Body>
               <Right>
                 {(user_type) &&
                 <Button transparent onPress={() => this._navigate('Notification', {TabList: true})}>
-                  <Icon name='md-notifications' style={{color: 'white', fontSize: 32}}/>
+                  <Icon name='md-notifications' style={CommonStyles.notificationIcon}/>
                   {(pending_count > 0) &&
-                  <Badge style={{
-                    position: 'absolute',
-                    right: 5, top: 0, height: 22, width: 22, justifyContent: 'center', alignItems: 'center',
-                    backgroundColor: 'red', borderRadius: 11
-                  }}>
-                    <Text style={{
-                      fontSize: 10,
-                      lineHeight: 10,
-                      color: 'white'
-                    }}>{(pending_count > 9) ? '+9' : pending_count}</Text>
+                  <Badge style={CommonStyles.notificationBadge}>
+                    <Text style={CommonStyles.badgeText}>{(pending_count > 9) ? '+9' : pending_count}</Text>
                   </Badge>}
                 </Button>}
               </Right>
             </Header>
-            <StatusBar backgroundColor={CONFIG.theme_color}/>
+            <StatusBar backgroundColor={THEME.themeColor}/>
 {/*            <PushNotification
               token={token}
               navigation={this.props.navigation}
@@ -250,21 +228,16 @@ export default class TabList extends Component {
               locked={true}
               initialPage={0}
               tabBarPosition='bottom'
-              tabBarUnderlineStyle={{backgroundColor: '#004FBB'}}
-              tabStyle={{backgroundColor: 'red'}}
-              tabBarActiveTextColor="white"
-              activeTabStyle={{backgroundColor: 'red', height: 40}}
+              tabBarUnderlineStyle={{backgroundColor: THEME.textColor}}
               onChangeTab={this.handleChangeTab}
+              
             >
               <Tab
+                textStyle={{ color: 'red' }}
                 heading={
-                  <TabHeading style={{
-                    backgroundColor: (Platform.OS === 'ios') ? '' : CONFIG.theme_color,
-                    flexDirection: 'column',
-                    flex: 1
-                  }}>
-                    <Icon name="md-qr-scanner"/>
-                    <Text style={{marginBottom: 3, fontSize: 14}}>Scan</Text>
+                  <TabHeading style={CommonStyles.tabHeading} >
+                    <Icon name="md-qr-scanner" style={{color: THEME.textColor}}/>
+                    <Text style={CommonStyles.tabText}>{CONFIG.tabText1}</Text>
                   </TabHeading>
                 }
               >
@@ -274,13 +247,9 @@ export default class TabList extends Component {
               </Tab>
               <Tab
                 heading={
-                  <TabHeading style={{
-                    backgroundColor: (Platform.OS === 'ios') ? '' : CONFIG.theme_color,
-                    flexDirection: 'column',
-                    flex: 1
-                  }}>
-                    <Icon name="md-list-box"/>
-                    <Text style={{marginBottom: 3, fontSize: 14}}>Checklist</Text>
+                  <TabHeading style={CommonStyles.tabHeading}>
+                    <Icon name="md-list-box" style={{color: THEME.textColor}}/>
+                    <Text style={CommonStyles.tabText}>{CONFIG.tabText2}</Text>
                   </TabHeading>
                 }
               >
@@ -292,13 +261,9 @@ export default class TabList extends Component {
               </Tab>
               <Tab
                 heading={
-                  <TabHeading style={{
-                    backgroundColor: (Platform.OS === 'ios') ? '' : CONFIG.theme_color,
-                    flexDirection: 'column',
-                    flex: 1
-                  }}>
-                    <Icon name="md-calendar"/>
-                    <Text style={{marginBottom: 3, fontSize: 14}}>Schedules</Text>
+                  <TabHeading style={CommonStyles.tabHeading}>
+                    <Icon name="md-calendar" style={{color: THEME.textColor}}/>
+                    <Text style={CommonStyles.tabText}>{CONFIG.tabText3}</Text>
                   </TabHeading>
                 }
               >
@@ -308,13 +273,13 @@ export default class TabList extends Component {
             <DropdownAlert
               ref={(ref) => this.dropdown = ref}
               updateStatusBar={false}
-              successColor={CONFIG.success_color}
-              messageStyle={{fontSize: 13, textAlign: 'left', color: 'white', backgroundColor: 'transparent'}}
+              successColor={THEME.successAlert}
+              messageStyle={CommonStyles.dropDownAlert}
               messageNumOfLines={5}
               elevation={5}
             />
           </Container>
-        </Drawer>
+          </DrawerLayoutAndroid>
       );
     } catch (error) {
       console.log(error, "crash->>>>>>>>>>>>>>>>>>>>>>>>>>>>");

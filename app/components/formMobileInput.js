@@ -22,8 +22,8 @@ export default class FormMobileInput extends Component {
         <Input 
           maxLength={10} 
           placeholder={this.props.placeholder} 
-          placeholderTextColor={THEME.textColor} 
-          style={{fontSize: 20}} 
+          placeholderTextColor = {THEME.textColor} 
+          style={{fontSize: 20, color:THEME.textColor}} 
           keyboardType="numeric" 
           autoFocus = {false} 
           value = {this.props.value}

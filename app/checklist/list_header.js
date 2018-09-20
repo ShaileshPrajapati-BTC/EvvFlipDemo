@@ -11,6 +11,7 @@ import {
 import {View} from 'react-native';       
 import CONFIG from '../config/config.js';
 import ListBody from './list_body.js';
+import THEME from '../config/theme';
 
 export default class ListHeader extends Component {
   _handleTaskResponse = (todo_id, status, comment="") => {
@@ -21,8 +22,8 @@ export default class ListHeader extends Component {
     return (
         <Card style={{borderBottomWidth:5, flexWrap: 'nowrap'}} bordered={true}>
           <List>
-            <ListItem itemDivider >
-              <Text style={{color: CONFIG.theme_color, fontSize: 15, fontWeight: "bold"}}>
+            <ListItem itemDivider style={{backgroundColor: THEME.scanInfoHeader}}>
+              <Text style={{ fontSize: 15, fontWeight: "bold"}}>
               {this.props.data.category_name}
               </Text>
             </ListItem>

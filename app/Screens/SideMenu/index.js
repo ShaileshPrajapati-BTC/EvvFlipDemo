@@ -24,10 +24,12 @@ import {
   Title
 } from 'native-base';
 
-import {Alert, Image, Platform, View} from 'react-native';
+import {Alert, Image, Platform, View,ImageBackground} from 'react-native';
 
 import CONFIG from '../../config/config.js';
 import Helper from '../../config/Helper.js';
+import THEME from '../../config/theme.js';
+import CommonStyles from '../../config/commonStyle.js';
 
 export default class SideMenu extends Component {
 
@@ -88,23 +90,23 @@ export default class SideMenu extends Component {
 
   render(){
     return(
-      <View style={{flex:1,justifyContent: 'center', backgroundColor: 'white'}}>
+      <View style={{flex:1,justifyContent: 'center', backgroundColor: THEME.themeColor}}>
         <Content >
-          <List>
-            <ListItem style={{marginTop: (Platform.OS === 'ios') ? 20 : 0, marginBottom: 20}}>
+            <ImageBackground source={{uri: 'https://www.botreetechnologies.com/img/team/header-bg.jpg'}} style={{flex:1,flexDirection:'row', backgroundColor:'transparent', height:100, padding:25}}>
               <Thumbnail small  source={{uri: this.props.profile}} style={{height: 50,width:50}}/>
-              <Body>
-              <Text>{`${this.props.name}`.substring(0,18)}</Text>
-              <Text note>{this.props.userData.user_role}</Text>
-              </Body>
-            </ListItem>
+              <View style={{marginLeft: 15, marginTop:5}}>
+              <Text style={{color: THEME.textColor, fontSize:15}}>{`${this.props.name}`.substring(0,18)}</Text>
+              <Text note style={{color: "#8A8581",fontSize:12}}>Caregiver</Text>
+              </View>
+            </ImageBackground>
+          <List>
             {(this.props.userData.user_type === true) ?
               <ListItem icon  onPress={()=> this._navigate('RemoteCheckoutList')}>
                 <Left>
-                  <Icon name="ios-construct" style={{color: CONFIG.theme_color}}/>
+                  <Icon name="ios-construct" style={{color: THEME.textColor}}/>
                 </Left>
-                <Body>
-                <Text>Incomplete Visits</Text>
+                <Body >
+                <Text style={{color: THEME.textColor}}>Incomplete Visits</Text>
                 </Body>
                 <Right>
                   {(this.props.incomplete_count > 0)?
@@ -137,80 +139,79 @@ export default class SideMenu extends Component {
                   </ListItem> : null}*/}
             <ListItem icon  onPress={()=> this._navigate('Telephony')}>
               <Left>
-                <Icon name="md-call" style={{color: CONFIG.theme_color}}/>
+                <Icon name="md-call" style={{color: THEME.textColor}}/>
               </Left>
               <Body>
-              <Text>Telephony</Text>
+              <Text style={{color: THEME.textColor}}>Telephony</Text>
               </Body>
               <Right/>
             </ListItem>
             {(this.props.userData.unit_setup_accesible === true)?
             <ListItem icon  onPress={()=> this._navigate('InstallBeacon')}>
               <Left>
-              <Icon name="md-qr-scanner" style={{color: CONFIG.theme_color}}/>
+              <Icon name="md-qr-scanner" style={{color: THEME.textColor}}/>
               </Left>
               <Body>
-              <Text>Unit Setup</Text>
+              <Text style={{color: THEME.textColor}}>Unit Setup</Text>
               </Body>
               <Right/>
               </ListItem>: null}
             <ListItem icon  onPress={()=> this._navigate('Blog')}>
               <Left>
-                <Icon name="md-paper" style={{color: CONFIG.theme_color}}/>
+                <Icon name="md-paper" style={{color: THEME.textColor}}/>
               </Left>
               <Body>
-              <Text>News</Text>
+              <Text style={{color: THEME.textColor}}>News</Text>
               </Body>
               <Right/>
             </ListItem>
             <ListItem icon  onPress={()=> this._navigate('ResetPassword')}>
               <Left>
-                <Icon name="md-lock" style={{color: CONFIG.theme_color}}/>
+                <Icon name="md-lock" style={{color: THEME.textColor}}/>
               </Left>
               <Body>
-              <Text>Change Password</Text>
+              <Text style={{color: THEME.textColor}}>Change Password</Text>
               </Body>
               <Right/>
             </ListItem>
             <ListItem icon  onPress={()=>this._navigate('Settings')}>
               <Left>
-                <Icon name="md-settings" style={{color: CONFIG.theme_color}}/>
+                <Icon name="md-settings" style={{color: THEME.textColor}}/>
               </Left>
               <Body>
-              <Text>Settings</Text>
+              <Text style={{color: THEME.textColor}}>Settings</Text>
               </Body>
               <Right/>
             </ListItem>
             <ListItem icon  onPress={()=> this._navigate('Intro')}>
               <Left>
-                <Icon name="md-help-circle" style={{color: CONFIG.theme_color}}/>
+                <Icon name="md-help-circle" style={{color: THEME.textColor}}/>
               </Left>
               <Body>
-              <Text>Help</Text>
+              <Text style={{color: THEME.textColor}}>Help</Text>
               </Body>
               <Right/>
             </ListItem>
             <ListItem icon  onPress={()=> this._navigate('TermsAndCondition')}>
               <Left>
-                <Icon name="md-document" style={{color: CONFIG.theme_color}}/>
+                <Icon name="md-document" style={{color: THEME.textColor}}/>
               </Left>
               <Body>
-              <Text>Terms of Use</Text>
+              <Text style={{color: THEME.textColor}}>Terms of Use</Text>
               </Body>
               <Right/>
             </ListItem>
             <ListItem icon  onPress={()=> this._logout()}>
               <Left>
-                <Icon name="md-log-out" style={{color: CONFIG.theme_color}}/>
+                <Icon name="md-log-out" style={{color: THEME.textColor}}/>
               </Left>
               <Body>
-              <Text>Logout</Text>
+              <Text style={{color: THEME.textColor}}>Logout</Text>
               </Body>
               <Right/>
             </ListItem>
           </List>
         </Content>
-        <Image small  style={{alignSelf: 'center',marginBottom: 10}} source={require('../../images/bottom_logoo.png')}/>
       </View>
     );
   }

@@ -7,6 +7,7 @@ import CONFIG from '../../config/config.js';
 import Helper from '../../config/Helper.js';
 import Loading from '../../components/Loading.js';
 import { NavigationActions } from "react-navigation";
+import THEME from '../../config/theme.js';
 
 export default class IntroductionComponent extends Component {
   

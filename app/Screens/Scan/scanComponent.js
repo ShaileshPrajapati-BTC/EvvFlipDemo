@@ -4,23 +4,18 @@ import {
   Body,
   Button,
   Card,
-  CardItem,
   Container,
   Content,
-  Header,
   Icon,
   Left,
   List,
   ListItem,
   Right,
-  Spinner,
-  Subtitle,
   Text,
-  Thumbnail,
-  Title
+  Thumbnail
 } from 'native-base';
 
-import {Alert, Animated, RefreshControl, StatusBar, TouchableWithoutFeedback, View} from 'react-native';
+import {Alert, Animated, RefreshControl, StatusBar, TouchableWithoutFeedback, View, Dimensions} from 'react-native';
 
 import Pulse from '../../../lib/Pulse.js';
 import CONFIG from '../../config/config.js';
@@ -29,9 +24,11 @@ import PermissionHelper from '../../config/permission_helper.js';
 import Loading from '../../components/Loading.js';
 import Permissions from 'react-native-permissions';
 import OpenAppSettings from 'react-native-app-settings'
-
+import THEME from '../../config/theme.js';
+import CommonStyles from '../../config/commonStyle.js';
 let Status = ["N/A", "Incomplete"];
 
+const {height, width} = Dimensions.get('window');
 export default class ScanComponent extends Component {
 
   constructor(props) {
@@ -271,11 +268,11 @@ export default class ScanComponent extends Component {
       .then(response => {
         if (response !== 'authorized') {
           Alert.alert(
-            'EVV would like to use Your Location.',
-            "EVV use location for tracking, Please enable it from settings.",
+            CONFIG.androidLocationTitle,
+            CONFIG.androidLocationText,
             [
-              {text: 'Cancel', style: 'cancel', onPress: this._cancel.bind(this)},
-              {text: 'Open Settings', onPress: this._openSettings.bind(this)},
+              {text: CONFIG.androidLocationCancelBtn, style: 'cancel', onPress: this._cancel.bind(this)},
+              {text: CONFIG.androidLocationOkBtn, onPress: this._openSettings.bind(this)},
             ]
           )
           return reject();
@@ -315,74 +312,70 @@ export default class ScanComponent extends Component {
           >
             <View>
               <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, margin: 10}}>
-                {(this.props.incomplete_count > 0 && this.props.userData.user_type === true) ?
+                {/* {(this.props.incomplete_count > 0 && this.props.userData.user_type === true) ?
                   <Animated.View style={{transform: [{scale: this.springValue}]}}>
                     <TouchableWithoutFeedback onPress={() => this._navigate('RemoteCheckoutList')}>
                       <Badge style={{borderRadius: 5, backgroundColor: '#ff9800', alignSelf: 'flex-start'}}>
-                        <Text>{this.props.incomplete_count + " Visits require your attention"}</Text>
+                        <Text>{this.props.incomplete_count + CONFIG.incompleteVisitText}</Text>
                       </Badge>
                     </TouchableWithoutFeedback>
                   </Animated.View> : <View/>}
-                <Icon name="ios-radio" style={{color: this.props.beaconColor, fontSize: 25, alignSelf: 'flex-end'}}/>
+                <Icon name="ios-radio" style={{color: this.props.beaconColor, fontSize: 25, alignSelf: 'flex-end'}}/> */}
               </View>
-              <Card style={{flex: 0, justifyContent: 'flex-start'}}>
-                <List>
-                  <ListItem itemDivider>
-                    <Text style={{color: CONFIG.theme_color, fontSize: 15, fontWeight: "bold"}}>Schedule
-                      Information</Text>
+              <Card style={CommonStyles.scanCardInfo}>
+                <List style={CommonStyles.scanList}>
+                  <ListItem itemDivider style={CommonStyles.scanListItem}>
+                    <Text style={CommonStyles.scanInfoText}>Schedule Information</Text>
                   </ListItem>
-                  <ListItem icon>
+                  <ListItem thumbnail style={CommonStyles.scanListItemBottom}>
                     <Left>
-                      <Icon name="ios-person"/>
+                      <Thumbnail medium source={{uri: "https://cdn.pixabay.com/photo/2016/08/20/05/38/avatar-1606916_960_720.png"}} />
                     </Left>
-                    <Body>
-                    <Text style={{fontSize: 15}}>Client name</Text>
+                    <Body style={{borderBottomWidth: 0}}>
+                      <Text style={{fontSize: 15}}>{this.props.userData.client_name}</Text>
+                      <Text style={{fontSize: 12}}>{`Status:-  ${this.props.userData.scan_status}`}</Text>
                     </Body>
-                    <Right>
-                      <Text style={{fontSize: 14}}>{this.props.userData.client_name}</Text>
-                    </Right>
-                  </ListItem>
-                  <ListItem icon>
-                    <Left>
-                      <Icon name="ios-timer"/>
-                    </Left>
-                    <Body>
-                    <Text style={{fontSize: 15}}>Status</Text>
-                    </Body>
-                    <Right style={{flexDirection: 'column'}}>
-                      <Text style={{
-                        fontSize: 14,
-                        bottom: 2,
-                        alignSelf: 'flex-end'
-                      }}>{this.props.userData.scan_status}</Text>
-                      {(Status.includes(this.props.userData.scan_status)) ? null :
-                        <Text style={{fontSize: 13}}>{Helper.toTimeZone(this.props.userData.scan_time)}</Text>
-                      }
+                    <Right style={{borderBottomWidth: 0}}>
+                    <View style={CommonStyles.scanStatusBtn}>
+                      <Icon name='md-happy' style={CommonStyles.scanIcon}/>
+                    </View>
                     </Right>
                   </ListItem>
                 </List>
               </Card>
             </View>
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 50, marginBottom: 50}}>
-              <Pulse pulseSize={250}/>
-              <Pulse pulseSize={200}/>
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 40, marginBottom: 40}}>
+              <Pulse pulseSize={250} color="#69D399"/>
+              <Pulse pulseSize={200} color="#BBE7CE"/>
               <Button
                 onPress={() => this._checkAppointmentStatus()}
                 style={{
                   position: 'absolute',
                   justifyContent: 'center',
-                  backgroundColor: CONFIG.theme_color,
+                  backgroundColor: THEME.checkInColor,
                   alignSelf: 'center',
                   width: 150,
                   height: 150,
-                  borderRadius: 75
+                  borderRadius: 75,
+                  flex:1,
+                  flexDirection:'column',
                 }}
                 disabled={this.state.disabled}
               >
+                <Icon name='md-timer' style={{fontSize: 40}}/>
                 <Text
-                  style={{alignSelf: 'center', fontSize: 15}}>{this.props.userData.clock_status.toUpperCase()}</Text>
+                  style={{alignSelf: 'center', fontSize: 18,top:10}}>{this.props.userData.clock_status.toUpperCase()}</Text>
               </Button>
             </View>
+            <ListItem icon style={{bottom: 5}}>
+              <Left>
+                <Icon name='md-pin' style={{color: THEME.themeColor}}/>
+              </Left>
+              <Body style={{borderBottomWidth: 0}}>
+                <Text style={{fontSize: 15,fontWeight: 'bold'}}>1/2, JBR Arcade, Science City Road, Sola, Ahmedabad, Gujarat 380060</Text>
+              </Body>
+              <Right/>
+            </ListItem>
           </Content>
           : <Loading/>}
       </Container>

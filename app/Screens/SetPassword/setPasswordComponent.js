@@ -7,24 +7,20 @@ import {
     Form,
     Header,
     Icon,
-    Input,
-    Item,
     Left,
-    List,
-    ListItem,
     Right,
     Spinner,
     Text,
-    Title
 } from 'native-base';
 
-import {StatusBar, View} from 'react-native';
+import {StatusBar, View, Image} from 'react-native';
 
 import CONFIG from '../../config/config.js';
-import Helper from '../../config/Helper.js';
 import DropdownAlert from 'react-native-dropdownalert';
 import FormPasswordInput from '../../components/formPasswordInput.js';
 import { NavigationActions,StackActions } from "react-navigation";
+import THEME from '../../config/theme.js';
+import CommonStyles from '../../config/commonStyle.js';
 
 export default class SetPassword extends Component {
   
@@ -63,11 +59,11 @@ export default class SetPassword extends Component {
   
   _validate_reset_password(){
     if(this.state.new_password.length === 0){
-      this.reset_password.alertWithType("error", "", "Please enter new password");
+      this.reset_password.alertWithType("error", "", CONFIG.setPassValidForNew);
     }else if(this.state.confirm_password.length === 0){
-      this.reset_password.alertWithType("error", "", "Please enter confirm password");
+      this.reset_password.alertWithType("error", "", CONFIG.setPassValidForConfirm);
     }else if (this.state.new_password !== this.state.confirm_password ){
-      this.reset_password.alertWithType("error", "", "New password and confirm password do not match");
+      this.reset_password.alertWithType("error", "", CONFIG.setPassValidNotMatch);
     }else{
       this.reset_password_api();
     }
@@ -86,63 +82,60 @@ export default class SetPassword extends Component {
   render(){
     return(
       <Container>
-        <Header style={styles.header}>
+        <Header style={CommonStyles.header}>
           <Left style={{flex: 1}}>
             <Button transparent onPress={ () => this._back_press()} style={{height: 60}}>
               <Icon name="arrow-back" style={{color: 'white'}}/>
             </Button>
           </Left>
           <Body style={{flex: 1}}>
-            <Text style={styles.header_title}>EVV systems</Text>
+            <Text style={CommonStyles.headerTitle}>{CONFIG.headerText}</Text>
           </Body>
           <Right/>
           <DropdownAlert 
             ref={(ref) => this.reset_password = ref} 
             updateStatusBar={false} 
-            successColor={CONFIG.success_color} 
+            successColor={THEME.successAlert} 
             titleNumOfLines={0}
-            messageStyle={{ fontSize: 13, textAlign: 'left', color: 'white', backgroundColor: 'transparent' }}
+            messageStyle={CommonStyles.dropDownAlert}
           />
         </Header>
-        <StatusBar backgroundColor={CONFIG.theme_color} />
+        <StatusBar backgroundColor={THEME.themeColor} />
         <Content 
-          contentContainerStyle={styles.contentStyle} 
+          contentContainerStyle={CommonStyles.contentStyle} 
           extraScrollHeight={100} 
           disableKBDismissScroll={true}
         >
-          <Icon 
-            theme={{ iconFamily: 'FontAwesome' }}
-            name="md-unlock" 
-            style={styles.smsIcon}
-          />
-          <View style={{marginBottom: 15}}>
-            <Text style={styles.boldTextStyle}> 
-              Reset your password
+          <Image square  style={CommonStyles.logoStyle} source={require('../../images/logoo.png')}/>
+          <View style={{marginBottom: 15, marginTop: 10}}>
+            <Text style={CommonStyles.boldTextStyle}> 
+              {CONFIG.setPassText1}
             </Text>
           </View>
 
           <View style={{marginBottom: 15}}>
-            <Text style={styles.grayTextStyle}>
-              Enter a new password for your account.
+            <Text style={CommonStyles.grayTextStyle}>
+              {CONFIG.setPassText2}
             </Text>
           </View>
 
-          <Form style={{alignSelf: 'center', marginTop:15, marginRight: 15}}>            
+          <Form style={CommonStyles.setPasswordForm}>            
             <FormPasswordInput 
-              placeholder = "New password"
+              placeholder = {CONFIG.newPassword}
               name = 'new_password'
               onTextChange={(name, value) => this.setState({new_password: value})}
             />
             <FormPasswordInput 
-              placeholder = "Confirm password"
+              placeholder = {CONFIG.confirmPassword}
               name = 'confirm_password'
               onTextChange={(name, value) => this.setState({confirm_password: value})}
             />
             <Button 
               disabled={this.state.reset_disabled}
-              style={styles.submitButton}
+              style={CommonStyles.setPassSubmitBtn}
               onPress={ () => this._validate_reset_password() }>
-              {(this.state.reset_disabled)? <Spinner color='#ffffff'/> : <Text>SUBMIT</Text>}
+              {(this.state.reset_disabled)? <Spinner color={THEME.themeColor}/> : 
+                <Text style={CommonStyles.buttonTextStyle}>{CONFIG.setPassBtnText}</Text>}
             </Button>
           </Form>
         </Content>
@@ -150,55 +143,3 @@ export default class SetPassword extends Component {
     );
   }
 }
-
-var styles = {
-
-  header: { 
-    backgroundColor: CONFIG.theme_color, 
-    height: 64
-  },
-  header_title: {
-    color: 'white', 
-    fontSize: 16
-  },
-  contentStyle: {
-    flex: 1 ,
-    justifyContent: 'center', 
-    alignSelf: 'center',
-  },
-  inputStyle: {
-    borderColor: "#b5b3b3", 
-    borderWidth:1, 
-    borderRadius:5, 
-    marginBottom: 15,
-    marginTop: 8,
-  },
-  submitButton: {
-    justifyContent:'center',
-    borderColor: CONFIG.theme_color, 
-    backgroundColor: CONFIG.theme_color,
-    borderRadius:10, 
-    marginTop: 25, 
-    marginBottom: 15, 
-    marginLeft:15,
-    width:285,
-    borderWidth:1 
-  },
-  boldTextStyle: {
-    marginBottom: 5, 
-    fontSize: 16, 
-    alignSelf: 'center',
-    color: '#3f3f3f'
-  },
-  grayTextStyle: {
-    marginBottom: 5, 
-    fontSize: 13, 
-    color: '#a8a8a8',
-    alignSelf: 'center'
-  },
-  smsIcon: {
-    color: CONFIG.theme_color, 
-    alignSelf: 'center', 
-    fontSize: 70, marginBottom: 20
-  }
-};

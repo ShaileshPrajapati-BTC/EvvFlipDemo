@@ -18,13 +18,14 @@ import {
   Title
 } from 'native-base';
 
-import {Platform, StatusBar, View} from 'react-native';
+import {Platform, StatusBar, View, Image} from 'react-native';
 
 import CONFIG from '../../config/config.js';
 import Helper from '../../config/Helper.js';
 import DropdownAlert from 'react-native-dropdownalert';
-import {NavigationActions} from "react-navigation";
-
+import {NavigationActions, StackActions} from "react-navigation";
+import THEME from '../../config/theme.js';
+import CommonStyles from '../../config/commonStyle.js';
 
 export default class OtpDetect extends Component {
 
@@ -62,7 +63,7 @@ export default class OtpDetect extends Component {
   }
 
   _back_press() {
-    const resetAction = NavigationActions.reset({
+    const resetAction = StackActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({
         routeName: 'Login'
@@ -98,7 +99,7 @@ export default class OtpDetect extends Component {
 
   _validate() {
     if (this.state.otp.length === 0) {
-      this.otp_dropdown.alertWithType('error', "", "Please enter OTP");
+      this.otp_dropdown.alertWithType('error', "", CONFIG.otpValidationText);
     } else {
       this._checkOtp();
     }
@@ -139,73 +140,72 @@ export default class OtpDetect extends Component {
   render() {
     return (
       <Container>
-        <Header style={styles.header}>
+        <Header style={CommonStyles.header}>
           <Left style={{flex: 1}}>
             <Button transparent onPress={() => this._back_press()} style={{height: 60}}>
               <Icon name="arrow-back" style={{color: 'white'}}/>
             </Button>
           </Left>
           <Body style={{flex: 1}}>
-          <Text style={styles.header_title}>EVV systems</Text>
+          <Text style={CommonStyles.headerTitle}>{CONFIG.headerText}</Text>
           </Body>
           <Right/>
           <DropdownAlert
             ref={(ref) => this.otp_dropdown = ref}
             updateStatusBar={false}
-            successColor={CONFIG.success_color}
+            successColor={THEME.successAlert}
             titleNumOfLines={0}
-            messageStyle={{fontSize: 13, textAlign: 'left', color: 'white', backgroundColor: 'transparent'}}
+            messageStyle={CommonStyles.dropDownAlert}
           />
         </Header>
         <StatusBar backgroundColor={CONFIG.theme_color}/>
-        <Content contentContainerStyle={styles.contentStyle} extraScrollHeight={100} disableKBDismissScroll={true}>
-          <Icon
-            theme={{iconFamily: 'FontAwesome'}}
-            name="md-chatboxes"
-            style={styles.smsIcon}
-          />
-          <View style={{marginBottom: 20}}>
-            <Text style={styles.boldTextStyle}>
-              Sit back & Relax! while we verify your
+        <Content contentContainerStyle={CommonStyles.contentStyle} extraScrollHeight={100} disableKBDismissScroll={true}>
+          
+        <Image square  style={CommonStyles.logoStyle} source={require('../../images/logoo.png')}/>
+
+          <View style={{marginBottom: 20, marginTop: 10}}>
+            <Text style={CommonStyles.boldTextStyle}>
+              {CONFIG.otpScrnText1}
             </Text>
-            <Text style={styles.boldTextStyle}>
-              mobile number
+            <Text style={CommonStyles.boldTextStyle}>
+            {CONFIG.otpScrnText2}
             </Text>
           </View>
           <View style={{marginBottom: 20}}>
-            <Text style={styles.grayTextStyle}>
-              Enter the OTP below in case if we fail to detect the
+            <Text style={CommonStyles.grayTextStyle}>
+            {CONFIG.otpScrnText3}
             </Text>
-            <Text style={styles.grayTextStyle}>
-              SMS automatically
+            <Text style={CommonStyles.grayTextStyle}>
+            {CONFIG.otpScrnText4}
             </Text>
           </View>
-          <Item style={styles.inputStyle}>
+          <Item style={CommonStyles.otpInputStyle}>
             <Input
-              style={{fontSize: 20, textAlign: 'center',}}
+              style={{fontSize: 20, color:THEME.textColor,textAlign: 'center',}}
               maxLength={6}
               value={this.state.otp}
               keyboardType="numeric"
-              placeholder='Enter OTP' placeholderTextColor="#b5b3b3"
+              placeholder={CONFIG.otpInput} 
+              placeholderTextColor={THEME.textColor}
               onChangeText={(text) => {
                 this.setState({otp: text})
               }}/>
           </Item>
-          {(this.state.otp_disabled) ? <Spinner color={CONFIG.theme_color}/> :
-            <View style={styles.btnContainer}>
+          {(this.state.otp_disabled) ? <Spinner color={THEME.spinnerColor}/> :
+            <View style={CommonStyles.otpBtnContainer}>
               <Button
                 iconLeft
                 bordered={this.state.location_service}
                 onPress={() => this._validate()}
-                style={styles.submitButton}>
-                <Text> SUBMIT </Text>
+                style={CommonStyles.otpSubmitButton}>
+                <Text style={CommonStyles.buttonTextStyle}> {CONFIG.otpSubmitText} </Text>
               </Button>
               <Button
                 iconLeft
                 bordered={this.state.location_service}
                 onPress={() => this._reSendOTP()}
-                style={styles.submitButton}>
-                <Text> RESEND </Text>
+                style={CommonStyles.otpSubmitButton}>
+                <Text style={CommonStyles.buttonTextStyle}> {CONFIG.otpResendText} </Text>
               </Button>
             </View>}
         </Content>
@@ -213,62 +213,3 @@ export default class OtpDetect extends Component {
     );
   }
 }
-
-let styles = {
-
-  header: {
-    backgroundColor: CONFIG.theme_color,
-    height: (Platform.OS === 'ios') ? 64 : 54
-  },
-  header_title: {
-    color: 'white',
-    fontSize: 16
-  },
-  contentStyle: {
-    flex: 1,
-    justifyContent: 'center',
-    alignSelf: 'center',
-  },
-  boldTextStyle: {
-    marginBottom: 5,
-    fontSize: 16,
-    alignSelf: 'center',
-    color: '#3f3f3f'
-  },
-  grayTextStyle: {
-    marginBottom: 5,
-    fontSize: 13,
-    color: '#a8a8a8',
-    alignSelf: 'center'
-  },
-  inputStyle: {
-    borderColor: "#b5b3b3",
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 13,
-    marginTop: 8,
-    width: 195,
-    alignSelf: 'center',
-    height: 40,
-  },
-  submitButton: {
-    marginBottom: 10,
-    alignSelf: 'center',
-    borderColor: CONFIG.theme_color,
-    backgroundColor: CONFIG.theme_color,
-    marginRight: 5,
-    marginLeft: 5
-  },
-  smsIcon: {
-    color: CONFIG.theme_color,
-    alignSelf: 'center',
-    fontSize: 70, marginBottom: 20
-  },
-  btnContainer: {
-    flexDirection: 'row',
-    alignSelf: 'center',
-    justifyContent: 'space-between',
-    marginTop: 5,
-    marginBottom: 5
-  }
-};

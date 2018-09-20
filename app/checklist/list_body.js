@@ -26,9 +26,9 @@ const question = [
   { label:'No', value: 'no'}
 ];
 const seg_color = {
-  'yes': "#00B325",
-  'no': "#cc3232",
-  'refused': "#cd853f",
+  'yes': "#00B262",
+  'no': "#F03A3D",
+  'refused': "#354A60",
   'none': "#757575"
 }
 

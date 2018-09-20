@@ -18,6 +18,8 @@ import CONFIG from '../../config/config.js';
 import Header from '../../components/back_header.js';   
 import Helper from '../../config/Helper.js';
 import FormPasswordInput from '../../components/formPasswordInput.js';
+import THEME from '../../config/theme.js';
+import CommonStyles from '../../config/commonStyle.js';
 
 export default class ResetPassword extends Component {
   
@@ -71,10 +73,10 @@ export default class ResetPassword extends Component {
           ref={(header) => { this.header = header; }} 
           title = {this.props.userData.fullname}
         />
-        <StatusBar backgroundColor={CONFIG.theme_color} />
+        <StatusBar backgroundColor={THEME.themeColor} />
         <Content 
-        contentContainerStyle={{flex: 1,justifyContent: 'center',alignItems: 'center'}} 
-        extraScrollHeight={250} disableKBDismissScroll={true}
+          contentContainerStyle={CommonStyles.contentStyle} 
+          extraScrollHeight={250} disableKBDismissScroll={true}
         >
           <Icon 
             theme={{ iconFamily: 'FontAwesome' }}
