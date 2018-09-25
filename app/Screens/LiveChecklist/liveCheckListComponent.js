@@ -8,6 +8,7 @@ import Helper from '../../config/Helper.js';
 import Loading from '../../components/Loading.js';
 import _ from 'lodash';
 import PermissionHelper from '../../config/permission_helper.js';
+import THEME from '../../config/theme.js';
 
 const responseData = {
   call_to_duty_enabled:false,
@@ -170,7 +171,7 @@ export default class LiveCheckList extends Component {
             >
             {(Object.keys(this.state.data).length > 0) ?
               null :
-              <Text style={{marginLeft: 2,marginRight:2, marginTop:10, textAlign: 'center', color: CONFIG.theme_color}}>
+              <Text style={{marginLeft: 2,marginRight:2, marginTop:10, textAlign: 'center', color: THEME.themeColor}}>
                 {(this.state.is_live_in_over)? 
                   CONFIG.live_in_submitted_careplan: 
                   (this.state.offline === true)? CONFIG.something_went_wrong:CONFIG.submitted_careplan}

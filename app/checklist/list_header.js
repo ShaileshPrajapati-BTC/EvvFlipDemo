@@ -22,7 +22,7 @@ export default class ListHeader extends Component {
     return (
         <Card style={{borderBottomWidth:5, flexWrap: 'nowrap'}} bordered={true}>
           <List>
-            <ListItem itemDivider style={{backgroundColor: THEME.scanInfoHeader}}>
+            <ListItem itemDivider style={{backgroundColor: THEME.taskListHeader}}>
               <Text style={{ fontSize: 15, fontWeight: "bold"}}>
               {this.props.data.category_name}
               </Text>

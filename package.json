@@ -17,6 +17,7 @@
     "react-native-app-settings": "^2.0.0",
     "react-native-autocomplete-input": "^3.4.0",
     "react-native-dropdownalert": "^2.10.0",
+    "react-native-material-bottom-navigation": "^1.0.1",
     "react-native-permissions": "^0.2.7",
     "react-native-radio-buttons": "^1.0.0",
     "react-native-signature-capture": "^0.4.6",

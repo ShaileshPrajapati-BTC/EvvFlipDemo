@@ -11,7 +11,8 @@ import {
 
 import {
   StatusBar,
-  View
+  View,
+  Image
 } from 'react-native';
 
 import CONFIG from '../../config/config.js';
@@ -78,42 +79,39 @@ export default class ResetPassword extends Component {
           contentContainerStyle={CommonStyles.contentStyle} 
           extraScrollHeight={250} disableKBDismissScroll={true}
         >
-          <Icon 
-            theme={{ iconFamily: 'FontAwesome' }}
-            name="md-unlock" 
-            style={styles.smsIcon}
-          />
-          <View style={{marginBottom: 15}}>
-            <Text style={styles.boldTextStyle}> 
-            Change your password
+          <Image square  style={CommonStyles.logoStyle} source={require('../../images/logoo.png')}/>
+          <View style={{marginBottom: 15, marginTop: 10}}>
+            <Text style={CommonStyles.boldTextStyle}> 
+             {CONFIG.changePassText1}
             </Text>
           </View>
           <View style={{marginBottom: 15}}>
-            <Text style={styles.grayTextStyle}>
-            Enter a new password for your account.
+            <Text style={CommonStyles.grayTextStyle}>
+              {CONFIG.changePassText2}
             </Text>
           </View>
-          <Form style={{alignSelf: 'center', marginTop:15, marginRight: 15}} >
+          <Form style={CommonStyles.setPasswordForm} >
             <FormPasswordInput 
-              placeholder = "Current password"
+              placeholder = {CONFIG.changeCurrentPass}
               name = 'old_password'
               onTextChange={(name, value) => this.setState({old_password: value})}
             />
             <FormPasswordInput 
-              placeholder = "New password"
+              placeholder = {CONFIG.changeNewPass}
               name = 'new_password'
               onTextChange={(name, value) => this.setState({new_password: value})}
             />
             <FormPasswordInput 
-              placeholder = "Confirm password"
+              placeholder = {CONFIG.changeConfirmPass}
               name = 'confirm_password'
               onTextChange={(name, value) => this.setState({confirm_password: value})}
             />
             <Button 
               disabled={this.state.reset_disabled}
-              style={{justifyContent:'center',borderColor: CONFIG.theme_color, backgroundColor: CONFIG.theme_color,borderRadius:10, marginTop: 25, marginBottom: 20, marginLeft:15,width:285,borderWidth:1 }}
+              style={CommonStyles.setPassSubmitBtn}
               onPress={ () => this._validate_reset_password() }>
-              {(this.state.reset_disabled)? <Spinner color='#ffffff'/> : <Text>CHANGE PASSWORD</Text>}
+              {(this.state.reset_disabled)? <Spinner color={THEME.themeColor}/> : 
+              <Text style={CommonStyles.buttonTextStyle}>{CONFIG.changePassSubBtn}</Text>}
             </Button>
           </Form>
         </Content>

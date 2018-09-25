@@ -6,6 +6,8 @@ import {StatusBar, View} from 'react-native';
 import Header from '../../components/back_header.js';
 import Permissions from 'react-native-permissions';
 import OpenAppSettings from 'react-native-app-settings'
+import THEME from '../../config/theme.js';
+import CommonStyles from '../../config/commonStyle.js';
 
 export default class Settings extends Component {
 
@@ -73,17 +75,17 @@ export default class Settings extends Component {
         <Header
           navigator={this.props.navigation}
           ref={(header) => { this.header = header; }}
-          title="Settings"
+          title={CONFIG.settingsTitle}
         />
-        <StatusBar backgroundColor={CONFIG.theme_color} />
+        <StatusBar backgroundColor={THEME.themeColor} />
         <Content >
           <List>
             <ListItem icon style={{marginTop: 10}} onPress={ () => this._openSettings() }>
               <Left>
-                <Icon name="md-camera" style={{color: CONFIG.theme_color}}/>
+                <Icon name="md-camera" style={{color: THEME.themeColor}}/>
               </Left>
               <Body>
-              <Text>Camera</Text>
+              <Text>{CONFIG.settingCameraPer}</Text>
               </Body>
               <Right>
                 <Icon
@@ -93,10 +95,10 @@ export default class Settings extends Component {
             </ListItem>
             <ListItem icon onPress={ () => this._openSettings() }>
               <Left>
-                <Icon name="md-pin" style={{color: CONFIG.theme_color}}/>
+                <Icon name="md-pin" style={{color: THEME.themeColor}}/>
               </Left>
               <Body>
-              <Text>Location</Text>
+              <Text>{CONFIG.settingLocationPer}</Text>
               </Body>
               <Right>
                 <Icon

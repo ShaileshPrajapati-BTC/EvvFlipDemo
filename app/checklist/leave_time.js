@@ -13,6 +13,8 @@ import {
 import {View, Platform, TimePickerAndroid} from 'react-native';       
 import CONFIG from '../config/config.js';
 import IosTimePicker from '../components/ios_time_picker.js';
+import THEME from '../config/theme';
+import CommonStyles from '../config/commonStyle.js';
 
 export default class LeaveTime extends Component {
   
@@ -135,7 +137,7 @@ export default class LeaveTime extends Component {
       <ListItem icon onPress={()=> this._openTimePicker()}>
         <Left/>
         <Body>
-        <Text style={{fontSize: 13}}><Icon name='md-time' style={{fontSize:13, marginRight:5}}/> What time did you leave?</Text>
+        <Text style={{fontSize: 13}}><Icon name='md-time' style={{fontSize:13, marginRight:5}}/> {CONFIG.leaveTime}</Text>
         </Body>
         <Right>
           <Text note style={{color: CONFIG.theme_color}}>{this.state.checkout_time_disp}</Text>

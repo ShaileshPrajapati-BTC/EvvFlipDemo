@@ -236,7 +236,7 @@ export default class ScanComponent extends Component {
     //     Helper.apiResponseAlert(error, CONFIG.check_appointment_api_error_404);
     //     console.log(error, "===========> _checkNextAppointment");
     //   });
-    Helper._alertPopupWithOutCall('Appointment Info', Helper.nextAppointmentInfo("2018-08-09", 1533807511, 1533897511));
+    Helper._alertPopupWithOutCall(CONFIG.nextAppInfo, Helper.nextAppointmentInfo("2018-08-09", 1533807511, 1533897511));
 
   }
 
@@ -325,7 +325,7 @@ export default class ScanComponent extends Component {
               <Card style={CommonStyles.scanCardInfo}>
                 <List style={CommonStyles.scanList}>
                   <ListItem itemDivider style={CommonStyles.scanListItem}>
-                    <Text style={CommonStyles.scanInfoText}>Schedule Information</Text>
+                    <Text style={CommonStyles.scanInfoText}>{CONFIG.scheduleInfo}</Text>
                   </ListItem>
                   <ListItem thumbnail style={CommonStyles.scanListItemBottom}>
                     <Left>

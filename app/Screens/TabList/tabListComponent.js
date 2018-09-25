@@ -37,6 +37,7 @@ export default class TabList extends Component {
       location_service: true,
       bluetooth_service: true,
       fetchData: false,
+      page:0
     };
   }
 
@@ -113,8 +114,8 @@ export default class TabList extends Component {
       CONFIG.logoutTitle,
       CONFIG.logoutText,
       [
-        {text: CONFIG.logoutOkBtn, onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        {text: CONFIG.logoutCancelBtn, onPress: () => this._logoutAfterResetPassword()},
+        {text: CONFIG.logoutCancelBtn, onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: CONFIG.logoutOkBtn, onPress: () => this._logoutAfterResetPassword()},
       ],
       {cancelable: false}
     )
@@ -148,9 +149,9 @@ export default class TabList extends Component {
   handleChangeTab = ({i, ref, from,}) => {
     console.log("Tab changes =====================>")
     if (i === 1) {
-      this.setState({fetchData: true});
+      this.setState({fetchData: true,page: i});
     } else {
-      this.setState({fetchData: false});
+      this.setState({fetchData: false, page: i});
     }
     setTimeout(() => {
       this.setState({fetchData: false})
@@ -173,11 +174,6 @@ export default class TabList extends Component {
   render() {
     const {pending_count, incomplete_visit_count} = this.props.notification_count.notificationCountData;
     const {fullname, avatar, user_type, token} = this.props.login.loginData;
-    var navigationView = (
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
-        <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>I'm in the Drawer!</Text>
-      </View>
-    );
     try {
       return (
         <DrawerLayoutAndroid
@@ -230,14 +226,12 @@ export default class TabList extends Component {
               tabBarPosition='bottom'
               tabBarUnderlineStyle={{backgroundColor: THEME.textColor}}
               onChangeTab={this.handleChangeTab}
-              
             >
               <Tab
-                textStyle={{ color: 'red' }}
                 heading={
                   <TabHeading style={CommonStyles.tabHeading} >
-                    <Icon name="md-qr-scanner" style={{color: THEME.textColor}}/>
-                    <Text style={CommonStyles.tabText}>{CONFIG.tabText1}</Text>
+                    <Icon name="md-qr-scanner" style={{fontSize: this.state.page === 0? 20 : 25, color: THEME.textColor}}/>
+                    {this.state.page === 0? <Text style={CommonStyles.tabText}>{CONFIG.tabText1}</Text> : null}
                   </TabHeading>
                 }
               >
@@ -248,8 +242,8 @@ export default class TabList extends Component {
               <Tab
                 heading={
                   <TabHeading style={CommonStyles.tabHeading}>
-                    <Icon name="md-list-box" style={{color: THEME.textColor}}/>
-                    <Text style={CommonStyles.tabText}>{CONFIG.tabText2}</Text>
+                    <Icon name="md-list-box" style={{fontSize: this.state.page === 1 ? 20 : 25, color: THEME.textColor}}/>
+                    {this.state.page === 1 ? <Text style={CommonStyles.tabText}>{CONFIG.tabText2}</Text> : null}
                   </TabHeading>
                 }
               >
@@ -262,8 +256,8 @@ export default class TabList extends Component {
               <Tab
                 heading={
                   <TabHeading style={CommonStyles.tabHeading}>
-                    <Icon name="md-calendar" style={{color: THEME.textColor}}/>
-                    <Text style={CommonStyles.tabText}>{CONFIG.tabText3}</Text>
+                    <Icon name="md-calendar" style={{fontSize: this.state.page === 2   ? 20 : 25,color: THEME.textColor}}/>
+                    {this.state.page === 2 ? <Text style={CommonStyles.tabText}>{CONFIG.tabText3}</Text> : null}
                   </TabHeading>
                 }
               >

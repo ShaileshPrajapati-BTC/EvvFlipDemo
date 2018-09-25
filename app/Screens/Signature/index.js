@@ -19,6 +19,8 @@ import SignatureCapture from 'react-native-signature-capture';
 import { NavigationActions } from "react-navigation";
 import Header from '../../components/back_header.js';
 import CONFIG from '../../config/config.js';
+import THEME from '../../config/theme.js';
+import CommonStyles from '../../config/commonStyle.js';
 
 export default class Signature extends Component {
 
@@ -82,7 +84,7 @@ export default class Signature extends Component {
         <Header
           navigator={this.props.navigation}
           ref={(header) => { this.header = header; }}
-          title = {"Signature"}
+          title = {CONFIG.signature}
           signature = {true}
         />
         <Content style={{backgroundColor : '#EEEEEE'}} scrollEnabled={false}>
@@ -90,7 +92,7 @@ export default class Signature extends Component {
           <View style={{ flex: 1, flexDirection: "row",justifyContent: 'center',marginTop: 10  }}>
             <Button small iconLeft style={{ backgroundColor: CONFIG.theme_color, width : 150, justifyContent: 'center', alignItems:'center' }}>
               <Icon name='ios-create-outline' />
-              <Text style={{color: 'white'}}>Client’s Signature</Text>
+              <Text style={{color: 'white'}}>{CONFIG.clientSingnature}</Text>
             </Button>
           </View>
           <SignatureCapture
@@ -106,11 +108,11 @@ export default class Signature extends Component {
 
           <View style={{ flex: 1, flexDirection: "row",justifyContent: 'center', marginTop: 7, marginBottom:10}}>
 
-            <Button style={{justifyContent:'center', borderColor: CONFIG.theme_color, backgroundColor: CONFIG.theme_color,width:100, borderRadius:10 }} onPress={ () => this.resetSign() }>
-              <Text style={{color: 'white'}}>RESET</Text>
+            <Button style={CommonStyles.singnatureResetBtnStyle} onPress={ () => this.resetSign() }>
+              <Text style={CommonStyles.singnatureBtnTextStyle}>{CONFIG.signatureResetBtn}</Text>
             </Button>
-            <Button disabled={this.state.disabled} style={{justifyContent:'center', borderColor: CONFIG.success_color, backgroundColor: CONFIG.success_color, width:100, borderRadius:10, marginLeft:20 }} onPress={ () => this.saveSign()}>
-              <Text style={{color: 'white'}}>SAVE</Text>
+            <Button disabled={this.state.disabled} style={CommonStyles.singnatureSaveBtnStyle} onPress={ () => this.saveSign()}>
+              <Text style={CommonStyles.singnatureBtnTextStyle}>{CONFIG.signatureSaveBtn}</Text>
             </Button>
           </View>
         </Content>

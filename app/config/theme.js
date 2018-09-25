@@ -12,5 +12,6 @@ module.exports = {
     notificationBadge: 'red',
     scanInfoHeader: '#f0f0f0',
     scanInfoBody: '#f9f9f9',
-    checkInColor: '#00B162'
+    checkInColor: '#00B162',
+    taskListHeader: '#E0E0E0'
 }

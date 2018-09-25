@@ -44,7 +44,7 @@ export default class MileagePopup extends Component {
                 <Item regular style={{backgroundColor: '#EEEEEE'}}>
                   <Input multiline={true}
                          maxLength={3}
-                         placeholder='Enter reimbursement mileage'
+                         placeholder={CONFIG.enterMilage}
                          autoFocus = {true}
                          numberOfLines = {3}
                          style = {{height : 50}}
@@ -58,7 +58,7 @@ export default class MileagePopup extends Component {
                   style={{ marginTop: 15, justifyContent:'center',
                     backgroundColor: (this.state.extra_milage.length > 0)? CONFIG.theme_color : CONFIG.disabled_color, alignSelf: 'center',borderRadius:10, width:120}}
                   onPress={ () => this._saveAndClosePopup()}>
-                  <Text>DONE</Text>
+                  <Text>{CONFIG.milageBtn}</Text>
                 </Button>
               </View>
             </View>

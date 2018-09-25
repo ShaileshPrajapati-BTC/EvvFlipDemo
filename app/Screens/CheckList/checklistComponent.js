@@ -20,6 +20,9 @@ import ExtraActivity from '../../checklist/extra_activity.js';
 import ListHeader from '../../checklist/list_header.js';
 import Helper from '../../config/Helper.js';
 import Loading from '../../components/Loading.js';
+import THEME from '../../config/theme.js';
+import CommonStyles from '../../config/commonStyle.js';
+
 import _ from 'lodash'
 const responseData = {
   call_to_duty_enabled:false,
@@ -198,7 +201,7 @@ export default class LiveCheckList extends Component {
           ref={(header) => { this.header = header; }}
           title = {this.props.userData.fullname}
           />
-        <StatusBar backgroundColor= {CONFIG.theme_color} />
+        <StatusBar backgroundColor= {THEME.themeColor} />
           { (this.state.loading) ? <Loading/> : 
             <Content
               refreshControl={
@@ -211,7 +214,7 @@ export default class LiveCheckList extends Component {
             >
             {(Object.keys(this.state.data).length > 0) ?
               null :
-              <Text style={{marginLeft: 2,marginRight:2, marginTop:10, textAlign: 'center', color: CONFIG.theme_color}}>
+              <Text style={{marginLeft: 2,marginRight:2, marginTop:10, textAlign: 'center', color: THEME.themeColor}}>
                 {(this.state.is_live_in_over)? 
                   CONFIG.live_in_submitted_careplan: 
                   (this.state.offline === true)? CONFIG.something_went_wrong:CONFIG.submitted_careplan}
@@ -254,10 +257,10 @@ export default class LiveCheckList extends Component {
         }
         {(!this.state.loading)?
           <Button 
-            style={{justifyContent:'center', backgroundColor: CONFIG.theme_color, alignSelf: 'center', marginTop: 30, marginBottom: 20,width:150, borderRadius:10}} 
+            style={CommonStyles.checkListSubBtn} 
             onPress={ () => this._confirmationForSubmit() }
           >
-            {(this.state.disabled)? <Spinner color='#ffffff'/> : <Text>SUBMIT</Text>}
+            {(this.state.disabled)? <Spinner color='#ffffff'/> : <Text>{CONFIG.checkListSubmitBtn}</Text>}
           </Button>: <Text/>}
       </Container>
     );

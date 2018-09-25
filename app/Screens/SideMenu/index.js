@@ -50,17 +50,6 @@ export default class SideMenu extends Component {
     this.setState({side_menu: this.props.side_menu})
   }
 
-  _confirmation_for_logout(){
-    Alert.alert(
-      'Logout',
-      'Are you sure you want to logout?',
-      [
-        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        {text: 'OK', onPress: () => this.props.logout._logout()},
-      ],
-      { cancelable: false }
-    )
-  }
   _navigate(name) {
     this.props.closeDrawer();
 
@@ -92,15 +81,16 @@ export default class SideMenu extends Component {
     return(
       <View style={{flex:1,justifyContent: 'center', backgroundColor: THEME.themeColor}}>
         <Content >
-            <ImageBackground source={{uri: 'https://www.botreetechnologies.com/img/team/header-bg.jpg'}} style={{flex:1,flexDirection:'row', backgroundColor:'transparent', height:100, padding:25}}>
-              <Thumbnail small  source={{uri: this.props.profile}} style={{height: 50,width:50}}/>
-              <View style={{marginLeft: 15, marginTop:5}}>
+            <ImageBackground source={require('../../images/bg.jpeg')} style={{flex:1,flexDirection:'row', backgroundColor:'transparent', height:120, padding:25}}>
+              <View style={CommonStyles.overlay}/>
+              <Thumbnail medium  source={{uri: this.props.profile}} style={{height: 50,width:50,marginTop:5}}/>
+              <View style={{marginLeft: 15, marginTop:10}}>
               <Text style={{color: THEME.textColor, fontSize:15}}>{`${this.props.name}`.substring(0,18)}</Text>
               <Text note style={{color: "#8A8581",fontSize:12}}>Caregiver</Text>
               </View>
             </ImageBackground>
           <List>
-            {(this.props.userData.user_type === true) ?
+            {/* {(this.props.userData.user_type === true) ?
               <ListItem icon  onPress={()=> this._navigate('RemoteCheckoutList')}>
                 <Left>
                   <Icon name="ios-construct" style={{color: THEME.textColor}}/>
@@ -116,7 +106,7 @@ export default class SideMenu extends Component {
                       </Text>
                     </View>: null}
                 </Right>
-              </ListItem>: null}
+              </ListItem>: null} */}
             {/*{(this.props.userData.user_type == true) ?
                   <ListItem icon  onPress={()=> this._navigate('ApprovedHours')}>
                     <Left>
@@ -137,7 +127,7 @@ export default class SideMenu extends Component {
                     </Body>
                     <Right/>
                   </ListItem> : null}*/}
-            <ListItem icon  onPress={()=> this._navigate('Telephony')}>
+            {/* <ListItem icon  onPress={()=> this._navigate('Telephony')}>
               <Left>
                 <Icon name="md-call" style={{color: THEME.textColor}}/>
               </Left>
@@ -145,8 +135,8 @@ export default class SideMenu extends Component {
               <Text style={{color: THEME.textColor}}>Telephony</Text>
               </Body>
               <Right/>
-            </ListItem>
-            {(this.props.userData.unit_setup_accesible === true)?
+            </ListItem> */}
+            {/* {(this.props.userData.unit_setup_accesible === true)?
             <ListItem icon  onPress={()=> this._navigate('InstallBeacon')}>
               <Left>
               <Icon name="md-qr-scanner" style={{color: THEME.textColor}}/>
@@ -164,13 +154,13 @@ export default class SideMenu extends Component {
               <Text style={{color: THEME.textColor}}>News</Text>
               </Body>
               <Right/>
-            </ListItem>
+            </ListItem> */}
             <ListItem icon  onPress={()=> this._navigate('ResetPassword')}>
               <Left>
                 <Icon name="md-lock" style={{color: THEME.textColor}}/>
               </Left>
               <Body>
-              <Text style={{color: THEME.textColor}}>Change Password</Text>
+              <Text style={{color: THEME.textColor}}>{CONFIG.changePassMenu}</Text>
               </Body>
               <Right/>
             </ListItem>
@@ -179,7 +169,7 @@ export default class SideMenu extends Component {
                 <Icon name="md-settings" style={{color: THEME.textColor}}/>
               </Left>
               <Body>
-              <Text style={{color: THEME.textColor}}>Settings</Text>
+              <Text style={{color: THEME.textColor}}>{CONFIG.settingMenu}</Text>
               </Body>
               <Right/>
             </ListItem>
@@ -188,7 +178,7 @@ export default class SideMenu extends Component {
                 <Icon name="md-help-circle" style={{color: THEME.textColor}}/>
               </Left>
               <Body>
-              <Text style={{color: THEME.textColor}}>Help</Text>
+              <Text style={{color: THEME.textColor}}>{CONFIG.helpMenu}</Text>
               </Body>
               <Right/>
             </ListItem>
@@ -197,7 +187,7 @@ export default class SideMenu extends Component {
                 <Icon name="md-document" style={{color: THEME.textColor}}/>
               </Left>
               <Body>
-              <Text style={{color: THEME.textColor}}>Terms of Use</Text>
+              <Text style={{color: THEME.textColor}}>{CONFIG.termsAndConMenu}</Text>
               </Body>
               <Right/>
             </ListItem>
@@ -206,7 +196,7 @@ export default class SideMenu extends Component {
                 <Icon name="md-log-out" style={{color: THEME.textColor}}/>
               </Left>
               <Body>
-              <Text style={{color: THEME.textColor}}>Logout</Text>
+              <Text style={{color: THEME.textColor}}>{CONFIG.logoutMenu}</Text>
               </Body>
               <Right/>
             </ListItem>

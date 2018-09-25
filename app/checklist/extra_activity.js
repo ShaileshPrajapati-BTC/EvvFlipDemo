@@ -6,6 +6,8 @@ import CONFIG from '../config/config.js';
 import MileagePopup from './milage.js';
 import LeaveTime from './leave_time.js';
 import CallToDutyHour from './call_to_duty_hours.js';
+import THEME from '../config/theme';
+import CommonStyles from '../config/commonStyle.js';
 
 export default class ExtraActivity extends Component {
   constructor(props) {
@@ -27,7 +29,7 @@ export default class ExtraActivity extends Component {
   }
   _showInjuryPopup(value){
     if (value){
-      this._alertPopup("", "Call office immediately");
+      this._alertPopup("", CONFIG.callOffice);
       this.setState({injury_status: 'yes'},()=>{
         this.props.saveData(this.state.injury_status,this.state.extra_milage, this.state.leave_time, this.state.call_to_duty_hours);
       });
@@ -90,12 +92,12 @@ export default class ExtraActivity extends Component {
        <Card style={{flexWrap: 'nowrap'}}>
           <List>
             <ListItem itemDivider >
-              <Text style={{color: CONFIG.theme_color, fontSize: 15, fontWeight: "bold"}}>Extra Activity</Text>
+              <Text style={{color: THEME.themeColor, fontSize: 15, fontWeight: "bold"}}>{CONFIG.etcActivity}</Text>
             </ListItem>
             <ListItem icon>
               <Left/>
               <Body>
-              <Text style={{fontSize: 13}}>Any injuries to Client or to yourself?</Text>
+              <Text style={{fontSize: 13}}>{CONFIG.injuryToClinet}</Text>
               </Body>
               <Right>
                 <Switch onValueChange = {this._showInjuryPopup.bind(this)} value = {this.state.injury_status_switch}/>
@@ -104,7 +106,7 @@ export default class ExtraActivity extends Component {
             <ListItem icon>
               <Left/>
               <Body>
-              <Text style={{fontSize: 13}}>Do you have any reimbursement mileage to enter?</Text>
+              <Text style={{fontSize: 13}}>{CONFIG.milage}</Text>
               </Body>
               <Right>
                 <Switch onValueChange = {this._showPopup.bind(this)} value = {this.state.extra_milage_switch} />
